@@ -14,20 +14,24 @@ LCG(3, 7, 20, 4, 3)
 
 lcg_table = function(X0, a, n, c, m ){
 
-  stt = 1:(n+1)
-  X = numeric(n+1)
-  X[1] = X0
-  equation = numeric(n+1)
-  equation[1] = a * X0 + c
+  stt = 1:n
+  X = numeric(n)
+  equation = numeric(n)
   
-  for (i in 2:(n+1) ){
-    X[i] = (a * X[i-1] + c) %% m
+  for (i in 1:n){
+    if (i == 1){
+      X[i] = (a * X0 + c) %% m
+    } else {
+      X[i] = (a * X[i-1] + c) %% m
+    }
   }
-
   
-  for (j in 2:(n+1) ){
-    equation[j] = (a * X[j-1] + c)
-    
+  for (j in 1:n ){
+    if (j==1){
+      equation[j] = (a * X0 + c)
+    } else{
+      equation[j] = (a * X[j-1] + c)
+    }
   }
   
   result = data.frame(
@@ -39,5 +43,5 @@ lcg_table = function(X0, a, n, c, m ){
   return(result)
 }
 ##  LCG = function(X0, a, n, c, m )  
-lcg_table(3, 7, 20, 4, 3)
+lcg_table(0, 5, 20, 1, 8)
   
