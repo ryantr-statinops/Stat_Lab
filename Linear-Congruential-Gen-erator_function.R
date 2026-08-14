@@ -44,4 +44,5 @@ lcg_table = function(X0, a, n, c, m ){
 }
 ##  LCG = function(X0, a, n, c, m )  
 lcg_table(0, 5, 20, 1, 8)
-  
+
+##plan: update các điều kiện thỏa mãn các tính chất của LCG
