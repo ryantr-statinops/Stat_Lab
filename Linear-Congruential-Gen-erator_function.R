@@ -1,6 +1,5 @@
 #Linear Congruential Generator
   
-#hàm đơn
 LCG = function(X0, a, n, c, m ){
     
     X = numeric(n+1)
@@ -10,7 +9,7 @@ LCG = function(X0, a, n, c, m ){
     }
     return(X)
   }
-  
+##  LCG = function(X0, a, n, c, m )
 LCG(3, 7, 20, 4, 3)
 
 lcg_table = function(X0, a, n, c, m ){
@@ -39,6 +38,6 @@ lcg_table = function(X0, a, n, c, m ){
   
   return(result)
 }
-  
+##  LCG = function(X0, a, n, c, m )  
 lcg_table(3, 7, 20, 4, 3)
   
