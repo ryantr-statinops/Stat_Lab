@@ -42,6 +42,7 @@ lcg_table = function(X0, a, n, c, m ){
   
   return(result)
 }
+
 ##  LCG = function(X0, a, n, c, m )  
 lcg_table(0, 5, 20, 1, 8)
 
