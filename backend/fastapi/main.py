@@ -8,6 +8,7 @@ from typing import List, Optional
 from fastapi import FastAPI, Query
 from pydantic import BaseModel
 
+from services.clt_service import sample_means, theoretical_mean_se
 from services.distributions_service import box_muller_samples
 from services.lcg_service import lcg_cycle_length, lcg_generator
 
@@ -61,6 +62,59 @@ async def generate_lcg(
         theoretical_max_period=m,
         cycle_length=cycle_length,
         notes=notes,
+    )
+
+
+class CltResponse(BaseModel):
+    distribution: str
+    n_simulations: int
+    sample_size: int
+    sample_means: List[float]
+    empirical_mean: float
+    empirical_std: float
+    theoretical_mean: float
+    theoretical_se: float
+
+
+@app.get("/api/v1/clt", response_model=CltResponse)
+async def run_clt(
+    n_simulations: int = Query(500, ge=10, le=20000, description="Số lần lấy mẫu"),
+    sample_size: int = Query(30, ge=2, le=10000, description="Kích thước mỗi mẫu"),
+    distribution: str = Query(
+        "uniform",
+        pattern="^(uniform|exponential)$",
+        description="Phân phối nền của từng mẫu",
+    ),
+    seed: Optional[int] = Query(None, description="Seed để tái lập kết quả"),
+):
+    """
+    Mô phỏng Định lý Giới hạn Trung tâm.
+
+    Trả về dãy trung bình mẫu cùng đại lượng thực nghiệm (mean, std)
+    để so sánh với lý thuyết N(μ, σ²/n).
+    """
+    means = sample_means(
+        n_simulations=n_simulations,
+        sample_size=sample_size,
+        distribution=distribution,
+        seed=seed,
+    )
+
+    mu, se = theoretical_mean_se(sample_size, distribution)
+
+    count = len(means)
+    emp_mean = sum(means) / count
+    emp_var = sum((x - emp_mean) ** 2 for x in means) / (count - 1)
+
+    return CltResponse(
+        distribution=distribution,
+        n_simulations=n_simulations,
+        sample_size=sample_size,
+        sample_means=means,
+        empirical_mean=emp_mean,
+        empirical_std=math.sqrt(emp_var),
+        theoretical_mean=mu,
+        theoretical_se=se,
     )
 
 
