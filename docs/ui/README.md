@@ -1,89 +1,58 @@
-# 🎨 UI Documentation
+# 🎨 UI Documentation — Statistical Computing Lab
 
-> Thư mục này là **nguồn chân lý duy nhất** về mặt giao diện của Statistical
-> Computing Lab: hệ thống thiết kế, giải phẫu trang, danh mục component và lộ
-> trình cải tiến UI. Mọi thay đổi giao diện lớn nên đi kèm cập nhật ở đây.
-
----
-
-## 🗺️ Bản đồ tài liệu đề xuất
-
-| # | Tài liệu | Nội dung | Trạng thái |
-|---|----------|----------|------------|
-| 1 | `README.md` (file này) | Index + triết lý UI + snapshot thiết kế hiện tại | ✅ Có |
-| 2 | `DESIGN-TOKENS.md` | Bảng màu, typography, spacing, radius, shadow — đối chiếu trực tiếp với Tailwind classes đang dùng | 📝 Đề xuất |
-| 3 | `PAGE-ANATOMY.md` | Giải phẫu chuẩn 1 trang "trạm thí nghiệm": header → form → states → kết quả (chips + chart + ghi chú) | 📝 Đề xuất |
-| 4 | `COMPONENTS.md` | Danh mục component tái sử dụng + các trạng thái (loading/error/empty/success) | 📝 Đề xuất |
-| 5 | `UX-JOURNAL.md` | Nhật ký trải nghiệm: mỗi lần tự dùng app mà thấy "kỳ"/"vướng" thì ghi vào — nguyên liệu quý cho cải tiến | 📝 Đề xuất |
-| 6 | `ROADMAP.md` | Backlog cải tiến UI có ưu tiên + độ khó (xem bản nháp phía dưới) | 📝 Đề xuất |
-
-> Quy ước: tài liệu mới tạo thì đổi trạng thái thành ✅ và ghi 1 dòng mô tả ở bảng trên.
+> Cổng vào duy nhất của tài liệu giao diện. Bộ file ở đây là **cố định**:
+> mọi nội dung mới đều phát triển *bên trong* các file có sẵn theo đúng section
+> template — không sinh thêm file `.md` mới.
 
 ---
 
-## 🧬 Triết lý UI hiện tại (3 nguyên tắc)
+## 🗺️ Bản đồ 5 file
 
-1. **Mỗi trang là một phòng thí nghiệm** — form tham số nằm trên, kết quả ngay dưới,
-   người dùng luôn thấy *quan hệ nhân-quả* giữa "tôi chỉnh gì" và "biểu đồ đổi ra sao".
-2. **Con số đi kèm ngữ cảnh** — không bao giờ hiển thị số trơ trọi: `s = 0.030`
-   phải đứng cạnh `SE lý thuyết = 0.030` kèm badge xanh/vàng cho biết khớp hay lệch.
-3. **Giáo dục bằng chú thích** — mọi kết quả đều kèm ghi chú mờ phía dưới giải thích
-   ý nghĩa thống kê (VD: điều kiện Hull-Dobell, σ/√n).
-
----
-
-## 📸 Snapshot thiết kế đang dùng (đối chiếu từ code)
-
-> Đây là dữ liệu gốc cho tài liệu `DESIGN-TOKENS.md` khi được viết chi tiết.
-
-**Màu sắc**
-
-| Vai trò | Class | Ghi chú |
+| File | Trả lời câu hỏi | Scale bằng gì |
 |---|---|---|
-| Nền trang | `bg-gray-50` | |
-| Bề mặt card | `bg-white` + `border-gray-200` + `shadow-sm` / `shadow-md` hover | radius `rounded-xl` |
-| Màu chủ đạo (CTA, link, bar chart) | `bg-blue-600` · `text-blue-600` · fill `#2563eb` | hover `blue-700` |
-| Thành công | `bg-green-50` / `text-green-700` | badge "Sẵn sàng", full-period |
-| Cảnh báo | `bg-amber-50` / `border-amber-200` / `text-amber-700` | badge lệch chu kỳ, notes 💡 |
-| Lỗi | `bg-red-50` / `border-red-200` / `text-red-700` + role="alert" | khối lỗi form/API |
-| Text chính/phụ/mờ | `text-gray-900` / `text-gray-500` / `text-gray-400` | |
+| `README.md` | Thư mục này vận hành thế nào? Nguyên lý & quy tắc? | Cập nhật khi quy tắc/nguyên lý thay đổi (hiếm) |
+| `DESIGN-SYSTEM.md` | Màu/chữ/spacing/chart chuẩn là gì? | Thêm hàng bảng token hoặc section loại UI mới |
+| `SCREENS.md` | Có những màn hình nào, giải phẫu ra sao? | Thêm section theo Template cho mỗi trang mới |
+| `COMPONENTS.md` | Có khối dựng nào, tách component lúc nào? | Khai báo pseudo-component mới hoặc ghi nhận đã tách |
+| `EVOLUTION.md` | Điều gì xảy ra theo thời gian? Backlog còn gì? | Append entry mới nhất lên đầu; backlog cập nhật |
 
-**Typography & layout**
+## 🧭 Định tuyến nhanh — "tôi cần X thì mở Y"
 
-- Tiêu đề trang: `text-2xl font-bold`; hero trang chủ: `text-3xl md:text-4xl font-extrabold`
-- Nhãn form/chips: `text-sm font-medium` · hint dưới input: `text-xs text-gray-400`
-- Container: `max-w-3xl` (trang chi tiết) / `max-w-5xl` (dashboard); padding `p-6`, gap `space-y-6`
-- Form grid: `grid-cols-1 md:grid-cols-2` hoặc `-4` tùy số trường
-- Input chuẩn: `px-3 py-2 border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none`
-- Chip trạng thái: `px-2.5 py-1 rounded-full text-xs font-medium`
-- Biểu đồ Recharts: cao `320px`, Bar `radius={[3,3,0,0]}`, tick fontSize 11
+| Tình huống | Mở file |
+|---|---|
+| Muốn thêm màu/icon/motion mới | DESIGN-SYSTEM §1–§7 |
+| Sắp code một trang trạm thí nghiệm mới | SCREENS §3 (pattern) + §Template |
+| Thắc mắc vì sao chưa tách component | COMPONENTS ⚠️ + 🛣️ |
+| Thấy chỗ nào "kỳ" khi tự dùng app | EVOLUTION → append `JOURNAL` |
+| Chỉnh sửa UI xong, chưa biết đủ chưa | ✅ Definition of Done phía dưới |
 
-**Trạng thái UI chuẩn hoá**: loading = đổi label nút + `disabled:opacity-50`;
-error = khối đỏ `role="alert"`; empty = không render section kết quả.
+## 🧬 Ba nguyên tắc thiết kế
 
----
+1. **Mỗi trang là một phòng thí nghiệm** — form trên, kết quả dưới, người dùng luôn
+   thấy quan hệ nhân-quả giữa tham số và biểu đồ.
+2. **Con số đi kèm ngữ cảnh** — không hiển thị số trơ trọi: luôn ghép thực nghiệm
+   cạnh lý thuyết (`s ≈ σ`, `s` vs `SE`) kèm badge khớp/lệch.
+3. **Giáo dục bằng chú thích** — kết quả nào cũng có note giải thích ý nghĩa thống kê.
 
-## 🧪 Backlog cải tiến UI — bản nháp cho ROADMAP.md
+## 📏 Quy tắc scale (bắt buộc)
 
-*Quan sát thực tế sau 4 lần tự dùng app; sẽ chuyển thành ticket khi ROADMAP.md hoàn thiện.*
+1. **Cấm tạo file `.md` mới** trong thư mục này nếu chưa thống nhất — bộ 5 file
+   được thiết kế để chứa mọi loại nội dung UI của dự án.
+2. Nội dung mới luôn đi vào **section đánh số** hoặc **bảng** sẵn có của file phù hợp;
+   mỗi file có template riêng đặt ở cuối.
+3. Entry thời gian (nhật ký/backlog) chỉ sống ở `EVOLUTION.md` — file khác không ghi log.
+4. Tên section tiếng Việt, nhất quán với thuật ngữ kỹ thuật tiếng Anh trong ngoặc.
 
-| Ưu tiên | Ý tưởng | Ghi chú kỹ thuật |
-|---|---|---|
-| 🔴 Cao | **Favicon + metadata icon** — tab trình duyệt đang trống | Thêm `app/icon.svg` (Next App Router tự nhận), tái dùng `/logo.svg` |
-| 🔴 Cao | **Nav highlight trang hiện tại** — chưa biết đang ở đâu | `usePathname()` so sánh href, thêm class active |
-| 🟠 TB | **Bảng/dạng lưới dãy LCG + nút Copy** — pre-text dài khó đọc | Grid 8 cột, `navigator.clipboard.writeText` |
-| 🟠 TB | **Chia sẻ kết quả qua URL** — refresh là mất tham số | Đồng bộ form ↔ search params (`useSearchParams`) |
-| 🟠 TB | **Tiêu đề trục + đơn vị trên biểu đồ** | XAxis/YAxis label của Recharts |
-| 🟡 TBC | Dark mode | Tailwind `dark:` + toggle lưu localStorage |
-| 🟡 TBC | Skeleton loading thay đổi chữ nút | Component `<Skeleton/>` chung |
-| 🟡 TBC | A11y: `aria-live` cho vùng kết quả, không phụ thuộc màu alone | Kiểm tra bằng axe devtools |
-| 🟢 Thấp | Mini sparkline trên card dashboard | Dùng lại endpoint histogram, SVG nhỏ |
+## ✅ Definition of Done cho một thay đổi UI
 
----
+- [ ] Class/token dùng đúng `DESIGN-SYSTEM.md` (không tự chế màu ngoài hệ)
+- [ ] Nếu thêm/sửa màn hình → `SCREENS.md` có section tương ứng
+- [ ] Nếu xuất hiện khối lặp lại lần ≥2 → cân nhắc ghi vào `COMPONENTS.md`
+- [ ] `EVOLUTION.md` append ít nhất 1 entry mô tả thay đổi + lý do
+- [ ] `npm run build` xanh; tự bấm thử ở ~1280px và ~375px width
+- [ ] Commit message nói rõ vùng UI bị ảnh hưởng
 
-## 🔄 Quy tắc bảo trì thư mục này
+## 🔗 Liên kết
 
-1. Đổi UI đáng kể → cập nhật snapshot/token trong cùng commit đó
-2. Phát hiện vấn đề UX khi tự dùng → ghi ngay vào `UX-JOURNAL.md` trước khi sửa
-3. Mọi item backlog lên đời → đánh dấu ưu tiên + ước lượng độ khó
-
+- Hướng dẫn khởi chạy dự án: [`docs/guide/INIT-GUIDE.md`](../guide/INIT-GUIDE.md)
+- Roadmap tổng & tech-debt: [`plan/ideation.md`](../../plan/ideation.md)
