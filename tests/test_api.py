@@ -13,14 +13,23 @@ def test_root_ok():
     assert res.json()["message"] == "Statistical Computing Lab API"
 
 
-def test_lcg_default_response_has_analysis_fields():
+def test_lcg_response_has_analysis_fields():
+    # Ghim tham số tường minh: chu kỳ của (X0=3,a=7,c=4,m=99) là 9.
+    # Lưu ý: default của API là m=9999 (khác ví dụ tài liệu).
+    res = client.get("/api/v1/lcg", params={"X0": 3, "a": 7, "n": 10, "c": 4, "m": 99})
+    assert res.status_code == 200
+    body = res.json()
+    assert body["count"] == len(body["sequence"]) == 10
+    assert body["cycle_length"] == 9
+    assert body["theoretical_max_period"] == 99
+
+
+def test_lcg_defaults_shape():
     res = client.get("/api/v1/lcg")
     assert res.status_code == 200
     body = res.json()
-    assert body["count"] == len(body["sequence"])
-    # Tham số mặc định X0=3,a=7,c=4,m=99 có chu kỳ thực tế = 9
-    assert body["cycle_length"] == 9
-    assert body["theoretical_max_period"] == 99
+    assert body["count"] == len(body["sequence"]) == 100
+    assert body["theoretical_max_period"] == 9999
 
 
 def test_lcg_rejects_invalid_n():
