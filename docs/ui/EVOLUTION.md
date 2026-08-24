@@ -11,6 +11,8 @@ Loại: `JOURNAL` (nhận xét khi tự dùng) · `DECISION` (chốt cách làm)
 
 ## 📒 Nhật ký & quyết định
 
+- 2026-08-24 · JOURNAL · Nhấn vào trang trạm xong không có nút quay về tổng quan — phải bấm logo/nav, mất phương hướng
+- 2026-08-24 · DONE · Thêm back-chip "← Tổng quan" đầu cả 3 trang trạm (chọn Link tĩnh phương án A; loại router.back() vì đá người dùng ra khỏi site khi vào thẳng URL)
 - 2026-08-24 · DECISION · Stack UI chốt: Next.js 14 App Router + Tailwind CSS v3 +
   Recharts; mọi trang trạm là client component, dashboard là server component
 - 2026-08-24 · DONE · Thêm CORS middleware phía backend cho `localhost:3000` /

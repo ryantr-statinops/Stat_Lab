@@ -35,9 +35,10 @@ Quy ước: trang dashboard là server component (tĩnh, nhẹ); mọi trang tr�
 
 ## 3. Giải phẫu chuẩn một trang "trạm thí nghiệm"
 
-Mọi trang trạm đi theo cùng 4 khối, thứ tự cố định:
+Mọi trang trạm đi theo cùng **5 khối**, thứ tự cố định:
 
 ```
+⓪ BackLink     chip "← Tổng quan" trên cùng (next/link tĩnh về dashboard)
 ① PageHeader   kicker (tên kỹ thuật) → h1 → công thức/mô tả 1 dòng
 ② FormCard     card trắng grid các Field + nút submit span full
 ③ ErrorAlert   (render có điều kiện) role="alert"
@@ -77,6 +78,7 @@ Form có select phân phối nền. Kết quả: histogram trung bình mẫu +
 ```md
 ## N. /duong-dan — Tên trạm
 
+BackLink: chip "← Tổng quan" (class chuẩn xem DESIGN-SYSTEM §4/§1)
 Form: [liệt kê trường + ràng buộc]
 Kết quả: [biểu đồ/dãy gì, bin bao nhiêu, tính ở đâu]
 Đối chiếu lý thuyết: [chip nào so với gì]

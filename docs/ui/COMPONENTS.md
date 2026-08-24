@@ -21,6 +21,7 @@ Toàn bộ JSX hiện **nội tuyến trong từng `page.tsx`**, chưa có compo
 | `NoteList` | /lcg (hiện tại) | `notes[]` | success |
 | `ChartCard` | /normal /clt | `title`, `data`, `children(Recharts)` | empty→ẩn |
 | `TopicCard` | `/` | `topic{href?,title,desc,formula,status}` | ready/soon |
+| `BackChip` | `/lcg` `/normal` `/clt` | `href="/"` (mặc định), `label="← Tổng quan"` | tĩnh |
 
 ## 🔁 Ma trận trạng thái chung
 
