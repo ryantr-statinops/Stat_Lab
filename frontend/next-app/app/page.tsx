@@ -1,101 +1,89 @@
-"use client";
+import Link from "next/link";
 
-import { useState } from "react";
-import axios from "axios";
+type Topic = {
+  href?: string;
+  title: string;
+  desc: string;
+  formula: string;
+  status: "ready" | "soon";
+};
+
+const TOPICS: Topic[] = [
+  {
+    href: "/lcg",
+    title: "LCG",
+    desc: "Sinh dãy số giả ngẫu nhiên và phân tích chu kỳ thực tế theo Hull-Dobell.",
+    formula: "X[i] = (a·X[i−1] + c) mod m",
+    status: "ready",
+  },
+  {
+    title: "Phân phối chuẩn",
+    desc: "Lấy mẫu biến đổi Box-Muller kèm biểu đồ histogram tương tác.",
+    formula: "Z = √(−2 ln U) · cos(2πV)",
+    status: "soon",
+  },
+  {
+    title: "CLT",
+    desc: "Mô phỏng Định lý Giới hạn Trung tâm trên các phân phối nền khác nhau.",
+    formula: "X̄ → N(μ, σ²/n)",
+    status: "soon",
+  },
+];
 
 export default function Home() {
-  const [formData, setFormData] = useState({
-    X0: 3,
-    a: 7,
-    n: 20,
-    c: 4,
-    m: 99
-  });
-  const [result, setResult] = useState<{ sequence: number[]; count: number } | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-
-    try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/v1/lcg`, {
-        params: formData
-      });
-      setResult(response.data);
-    } catch (err: any) {
-      setError(err.response?.data?.detail || "Có lỗi xảy ra");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: parseInt(value) || 0
-    }));
-  };
-
   return (
-    <main className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
+    <main className="max-w-5xl mx-auto p-6">
+      <section className="pt-10 pb-8 text-center">
+        <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">
           Statistical Computing Lab
         </h1>
+        <p className="mt-3 text-gray-500 max-w-2xl mx-auto text-sm md:text-base">
+          Các hàm thống kê tính toán được port từ sổ tay R trong{" "}
+          <code className="bg-gray-100 px-1.5 py-0.5 rounded">lab/R/</code> thành
+          API Python (FastAPI) và giao diện web trực quan.
+        </p>
+      </section>
 
-        <div className="bg-white rounded-lg shadow p-6 mb-6">
-          <h2 className="text-xl font-semibold mb-4">Linear Congruential Generator (LCG)</h2>
-          
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {Object.entries(formData).map(([key, value]) => (
-              <div key={key}>
-                <label className="block text-sm font-medium mb-1">
-                  {key.toUpperCase()}
-                </label>
-                <input
-                  type="number"
-                  name={key}
-                  value={value}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                />
+      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pb-6">
+        {TOPICS.map((topic) =>
+          topic.status === "ready" && topic.href ? (
+            <Link
+              key={topic.title}
+              href={topic.href}
+              className="group flex flex-col bg-white rounded-xl border border-gray-200 shadow-sm p-5 hover:border-blue-300 hover:shadow-md transition-all"
+            >
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="font-bold group-hover:text-blue-600 transition-colors">
+                  {topic.title}
+                </h2>
+                <span className="px-2 py-0.5 rounded-full bg-green-50 text-green-700 text-xs font-medium">
+                  Sẵn sàng
+                </span>
               </div>
-            ))}
-            
-            <div className="md:col-span-2">
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md disabled:opacity-50"
-              >
-                {loading ? "Generating..." : "Generate Random Numbers"}
-              </button>
+              <p className="text-sm text-gray-500 flex-1">{topic.desc}</p>
+              <code className="mt-4 text-xs bg-gray-50 border border-gray-100 rounded-md px-2 py-1.5 self-start">
+                {topic.formula}
+              </code>
+            </Link>
+          ) : (
+            <div
+              key={topic.title}
+              className="flex flex-col bg-white rounded-xl border border-dashed border-gray-200 p-5 opacity-70"
+            >
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="font-bold text-gray-600">{topic.title}</h2>
+                <span className="px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 text-xs font-medium">
+                  Stage 3
+                </span>
+              </div>
+              <p className="text-sm text-gray-400 flex-1">{topic.desc}</p>
+              <code className="mt-4 text-xs bg-gray-50 border border-gray-100 rounded-md px-2 py-1.5 self-start text-gray-400">
+                {topic.formula}
+              </code>
             </div>
-          </form>
-        </div>
-
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-            {error}
-          </div>
+          )
         )}
-
-        {result && (
-          <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-semibold mb-3">Kết quả</h3>
-            <p className="text-gray-600 mb-3">Số lượng sinh ra: {result.count}</p>
-            <div className="bg-gray-50 p-4 rounded-md max-h-60 overflow-y-auto">
-              <pre className="text-sm break-all">
-                {JSON.stringify(result.sequence, null, 2)}
-              </pre>
-            </div>
-          </div>
-        )}
-      </div>
+      </section>
     </main>
   );
 }
