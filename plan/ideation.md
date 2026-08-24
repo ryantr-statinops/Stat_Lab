@@ -1,6 +1,8 @@
 # 📊 Dự Án Lab Thống Kê Tính Toán
 
-> **Mục tiêu**: Xây dựng một nền tảng web giáo dục cho phép thực hành thống kê tính toán với đa ngôn ngữ (R, Python, JavaScript)
+> **Mục tiêu**: Nền tảng web học thống kê tính toán — **ưu tiên luyện full-stack web dev (60%)**, nội dung thống kê đóng vai trò "đề bài" thực hành (40%).
+
+> 🔄 **Cập nhật định hướng (2026-08-24)**: Bỏ phương án dùng R làm backend (Plumber/subprocess) và bỏ Redis cache. Backend chạy thuần Python; `lab/R/` chỉ còn là **sổ tay bài lab** — nơi viết thử công thức bằng R trước khi port sang Python khi cần làm feature web tương ứng.
 
 ---
 
@@ -29,47 +31,42 @@
 
 | Thành phần | Công nghệ | Ghi chú |
 |------------|-----------|---------|
-| **Frontend** | Next.js 14, Tailwind CSS, Chart.js | SaaS UI đẹp, responsive |
-| **API Gateway** | FastAPI (Python) | Tốc độ phát triển nhanh, tích hợp tốt với Python |
-| **R Services** | Plumber | Chuyển đổi hàm R thành REST API |
-| **Container** | Docker, Docker Compose | Dễ dàng deploy và môi trường đồng nhất |
-| **Deploy** | Railway/Vercel hoặc Local Docker | Phù hợp để demo |
+| **Frontend** | Next.js 14, Tailwind CSS, Recharts | Dashboard đa bài toán, responsive |
+| **Backend** | FastAPI (Python thuần) | Toàn bộ tính toán bằng Python/NumPy |
+| **Sổ tay lab** | R scripts (`lab/R/`) + sách Rizzo | Thử công thức trước khi port sang Python |
+| **Deploy** | Frontend → Vercel, Backend → Railway/Fly.io | Không cần Docker Compose |
+
+❌ **Đã loại bỏ khỏi roadmap**: Plumber (R-as-a-service), Redis, kiến trúc multi-service, Docker Compose.
 
 ---
 
-## 📅 Giai Đoạn Phát Triển
+## 📅 Giai Đoạn Phát Triển (định hướng mới 2026-08-24)
 
-### **Stage 1: Setup Cơ Bản (Tuần 1-2)**
-- [ ] Tạo cấu trúc thư mục workspace
-- [ ] Thiết lập FastAPI backend
-- [ ] Viết service wrapper cho R LCG
-- [ ] Tạo API endpoint đầu tiên (`/api/v1/lcg`)
-- [ ] Viết test cơ bản cho API
+### **Stage 0: Chốt dọn workspace** ✅
+- [x] Commit thay đổi treo ở `lab/R/UNI_D.R`
+- [x] Khóa định hướng 60/40 trong tài liệu
 
-### **Stage 2: R + Python Integration (Tuần 3-4)**
-- [ ] Tích hợp R service với FastAPI (subprocess hoặc HTTP)
-- [ ] Thêm hàm: Normal Distribution (Box-Muller transform)
-- [ ] Thêm hàm: Central Limit Theorem simulation
-- [ ] Viết unit tests cho tất cả hàm
-- [ ] Thiết lập Docker compose
+### **Stage 1: Dọn kỹ thuật nợ backend**
+- [ ] Refactor `main.py` gọi `services/lcg_service.py` thay vì inline
+- [ ] Sửa expected values sai trong test LCG
+- [ ] Thêm pytest vào requirements-dev, chạy green toàn bộ test
+- [ ] Phân tích chu kỳ LCG (cycle length) trong response
 
-### **Stage 3: Frontend Development (Tuần 5-6)**
-- [ ] Tạo Next.js app với App Router
-- [ ] Thiết kế dashboard chính (chọn bài toán)
-- [ ] Build form nhập tham số
-- [ ] Tích hợp API calls với useEffect/useAction
+### **Stage 2: Frontend sống lại**
+- [ ] Bổ sung `layout.tsx`, tsconfig, cài Tailwind đúng chuẩn
+- [ ] Dashboard shell + điều hướng chọn bài toán
+- [ ] Client validation + loading/error states
 
-### **Stage 4: Visualization & UI (Tuần 7-8)**
-- [ ] Tích hợp Chart.js hoặc Recharts
-- [ ] Biểu đồ Histogram, CDF, QQ-Plot, Boxplot
-- [ ] Thêm interactive controls
-- [ ] Thiết kế responsive, dark mode
+### **Stage 3: Mở rộng nội dung thống kê**
+- [ ] Endpoint Box-Muller (phân phối chuẩn)
+- [ ] Endpoint mô phỏng CLT
+- [ ] Endpoint histogram bins (server-side)
+- [ ] Trang frontend tương ứng với biểu đồ Recharts
 
-### **Stage 5: Polish & Documentation (Tuần 9-10)**
-- [ ] Viết documentation chi tiết
-- [ ] Tối ưu hóa performance
-- [ ] Thêm loading states và error handling
-- [ ] Viết hướng dẫn setup cho môi trường dev
+### **Stage 4: Deploy không Docker**
+- [ ] Gỡ `docker-compose.yml`, `Dockerfile.dev`
+- [ ] Frontend → Vercel, Backend → Railway/Fly.io
+- [ ] README quick start theo flow mới
 
 ---
 
@@ -138,11 +135,11 @@ docker-compose up --build
 
 ---
 
-## ❓ Câu Hỏi Chưa Giải Quyết
+## ✅ Quyết Định Đã Chốt
 
-1. Phương thức gọi R: subprocess vs HTTP call?
-2. Cần Redis cache không?
-3. Deploy lên cloud hay chạy local?
+1. ~~Phương thức gọi R: subprocess vs HTTP call?~~ → **Không gọi R từ backend**, port logic sang Python khi cần.
+2. ~~Cần Redis cache không?~~ → **Không**, kết quả tính toán tức thời theo request.
+3. ~~Deploy lên cloud hay chạy local?~~ → **Cloud platform free tier** (Vercel + Railway/Fly.io).
 
 *File này sẽ được cập nhật theo tiến độ phát triển*
 
