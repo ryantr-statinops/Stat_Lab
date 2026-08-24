@@ -12,6 +12,10 @@ Workspace giáo dục với định hướng **60% luyện full-stack web dev / 
 
 ## ⚡ Quick Start (local dev)
 
+> 📚 Lần đầu khởi tạo dự án? Xem hướng dẫn đầy đủ từng bước tại
+> **[docs/guide/INIT-GUIDE.md](docs/guide/INIT-GUIDE.md)** — bao gồm yêu cầu môi
+> trường, cài đặt backend/frontend, chạy test và troubleshooting.
+
 ### Backend (port 8000)
 ```bash
 cd backend/fastapi
