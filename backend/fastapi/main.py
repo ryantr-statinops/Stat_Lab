@@ -9,7 +9,8 @@ from fastapi import FastAPI, Query
 from pydantic import BaseModel
 
 from services.clt_service import sample_means, theoretical_mean_se
-from services.distributions_service import box_muller_samples
+from services.distributions_service import box_muller_samples, uniform_samples
+from services.histogram_service import histogram_bins
 from services.lcg_service import lcg_cycle_length, lcg_generator
 
 app = FastAPI(
@@ -148,6 +149,49 @@ async def generate_normal(
         count=total,
         sample_mean=sample_mean,
         sample_std=math.sqrt(sample_var),
+    )
+
+
+class HistogramBin(BaseModel):
+    lower: float
+    upper: float
+    count: int
+
+
+class HistogramResponse(BaseModel):
+    source: str
+    total: int
+    bin_count: int
+    bins: List[HistogramBin]
+
+
+@app.get("/api/v1/histogram", response_model=HistogramResponse)
+async def build_histogram(
+    source: str = Query(
+        "normal",
+        pattern="^(normal|uniform)$",
+        description="Nguồn dữ liệu mô phỏng",
+    ),
+    n: int = Query(5000, ge=100, le=50000, description="Số điểm dữ liệu"),
+    n_bins: int = Query(20, ge=5, le=100, description="Số bins"),
+    seed: Optional[int] = Query(None, description="Seed để tái lập kết quả"),
+):
+    """
+    Sinh dữ liệu mô phỏng và chia bins ngay trên server.
+
+    Frontend chỉ cần map bins vào biểu đồ cột mà không phải
+    tải về toàn bộ mẫu thô.
+    """
+    if source == "normal":
+        values = box_muller_samples(n=n, seed=seed)
+    else:
+        values = uniform_samples(n=n, seed=seed)
+
+    return HistogramResponse(
+        source=source,
+        total=len(values),
+        bin_count=n_bins,
+        bins=histogram_bins(values, n_bins),
     )
 
 
