@@ -79,3 +79,13 @@
 - **Dark mode**: sẽ dùng prefix `dark:` với cùng vai trò bảng §1; toggle lưu `localStorage`
 - **Motion**: duration ngắn `150ms` (hover/focus), dài `300ms` (transition layout)
 - **Z-index**: header sticky `z-10` là mốc cao nhất hiện có
+
+## 8. Iconography
+
+- Thư viện: **`lucide-react`** (cài 2026-08-24)
+- Kích thước chuẩn: `size={12}` trong chip nhỏ · `14–16` khi icon đứng một mình
+- `strokeWidth={2}`, `linecap/linejoin round`, `aria-hidden` khi chỉ trang trí (đã có text kèm)
+- Màu: bỏ qua prop color — dùng `currentColor` kế thừa màu chữ/hover của cha
+- Icon đang dùng: `ArrowLeft` trong `components/ui/BackChip.tsx`
+- Khi cần icon mới: tra trước trên lucide.dev rồi import, **không tự vẽ SVG tay**
+  (tránh lại vụ lệch baseline như glyph `←` Unicode)

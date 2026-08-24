@@ -3,11 +3,12 @@
 > Danh mục khối UI và lộ trình tái sử dụng. **Thêm/sửa component = thêm section
 > theo mẫu ở cuối file** — không tạo file .md mới.
 
-## ⚠️ Trạng thái hiện tại (ghi nhận trung thực)
+## 📌 Trạng thái hiện tại
 
-Toàn bộ JSX hiện **nội tuyến trong từng `page.tsx`**, chưa có component tách file.
-Đây là nợ kỹ thuật **có chủ đích** theo *rule of three*: chưa tách khi mới chỉ có
-3 trang, tránh trừu tượng hoá sớm. File này là bản đồ để tách đúng lúc.
+Component thật đầu tiên đã ra đời: **`components/ui/BackChip.tsx`** (2026-08-24,
+dùng `ArrowLeft` từ lucide-react). Các khối còn lại vẫn nội tuyến trong
+`page.tsx` theo *rule of three* — bảng pseudo-catalog dưới đây là bản đồ để tách
+đúng lúc.
 
 ## 🗂️ Pseudo-catalog (các khối lặp lại đang sống inline)
 
