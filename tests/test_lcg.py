@@ -19,9 +19,14 @@ def test_lcg_zero_iterations():
 
 
 def test_lcg_consistency():
-    """Test tính nhất quán của sequence"""
+    """Test tính nhất quán của sequence
+
+    Tính tay theo công thức X(i) = (7 * X(i-1) + 4) % 99 với X0 = 3:
+      (7*3+4)%99=25 -> (7*25+4)%99=80 -> (7*80+4)%99=69
+      -> (7*69+4)%99=91 -> (7*91+4)%99=47
+    """
     result = lcg_generator(X0=3, a=7, n=5, c=4, m=99)
-    expected = [25, 180, 1266, 8930, 6272]  # Các giá trị tính theo công thức
+    expected = [25, 80, 69, 91, 47]
     assert result == expected
 
 

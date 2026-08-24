@@ -21,8 +21,8 @@ def lcg_generator(X0: int, a: int, n: int, c: int, m: int) -> List[int]:
         List of random numbers
     
     Example:
-        >>> lcg_generator(3, 7, 20, 4, 99)
-        [25, 180, 1266, ...]
+        >>> lcg_generator(X0=3, a=7, n=5, c=4, m=99)
+        [25, 80, 69, 91, 47]
     """
     if n <= 0:
         return []
