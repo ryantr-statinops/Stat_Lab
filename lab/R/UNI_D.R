@@ -13,7 +13,7 @@ Uni_distribution = function(X){
 
   }
   
-  cat('khoảng thứ:',(length(X)))
+  return(length(X))
 }
 
 X = c(1/10, 2/10, 4/10, 3/10)
