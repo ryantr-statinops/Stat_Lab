@@ -2,7 +2,7 @@
 Test cases cho LCG service
 """
 import pytest
-from backend.fastapi.services.lcg_service import lcg_generator
+from backend.fastapi.services.lcg_service import lcg_cycle_length, lcg_generator
 
 
 def test_lcg_basic():
@@ -34,3 +34,19 @@ def test_lcg_modulo_constraint():
     """Test các giá trị luôn nhỏ hơn m"""
     result = lcg_generator(X0=3, a=7, n=100, c=4, m=99)
     assert all(0 <= x < 99 for x in result)
+
+
+def test_lcg_cycle_full_period():
+    """X0=0, a=5, c=1, m=8 thỏa Hull-Dobell -> chu kỳ đầy đủ = 8"""
+    assert lcg_cycle_length(0, 5, 1, 8) == 8
+
+
+def test_lcg_cycle_short_period():
+    """Tham số không thỏa Hull-Dobell -> chu kỳ ngắn hơn m"""
+    cycle = lcg_cycle_length(3, 7, 4, 99)
+    assert cycle is not None and 0 < cycle < 99
+
+
+def test_lcg_cycle_returns_none_beyond_limit():
+    """max_steps nhỏ hơn chu kỳ thật -> trả về None"""
+    assert lcg_cycle_length(0, 5, 1, 8, max_steps=3) is None
