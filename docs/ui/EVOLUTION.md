@@ -11,6 +11,7 @@ Loại: `JOURNAL` (nhận xét khi tự dùng) · `DECISION` (chốt cách làm)
 
 ## 📒 Nhật ký & quyết định
 
+- 2026-08-24 · JOURNAL · Gặp 500 trên MỌI trang khi test bằng `next start` dù build báo xanh — nguyên nhân: server zombie từ phiên cũ còn giữ `.next` trong khi build mới ghi đè lên → webpack-runtime mất chunk (`Cannot find module './991.js'`). Bài học: trước `npm run build`, luôn chắc chắn không còn process cũ (kiểm tra `ss -ltnp`); nếu nghi ngờ, `rm -rf .next && npm run build`. Cẩn thận với `pkill -f`: pattern khớp cả cmdline của chính shell mình → dùng mẹo ngoặc vuông (`pkill -f 'nex[t]-server'`)
 - 2026-08-24 · JOURNAL · Nhấn vào trang trạm xong không có nút quay về tổng quan — phải bấm logo/nav, mất phương hướng
 - 2026-08-24 · DONE · Thêm back-chip "← Tổng quan" đầu cả 3 trang trạm (chọn Link tĩnh phương án A; loại router.back() vì đá người dùng ra khỏi site khi vào thẳng URL)
 - 2026-08-24 · DECISION · Stack UI chốt: Next.js 14 App Router + Tailwind CSS v3 +
