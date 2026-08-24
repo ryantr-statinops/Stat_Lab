@@ -49,3 +49,19 @@ def test_normal_is_reproducible_with_seed():
     first = client.get("/api/v1/normal", params={"n": 30, "seed": 11}).json()["samples"]
     second = client.get("/api/v1/normal", params={"n": 30, "seed": 11}).json()["samples"]
     assert first == second
+
+
+def test_clt_endpoint_returns_simulation_and_theory():
+    res = client.get(
+        "/api/v1/clt", params={"n_simulations": 20, "sample_size": 5, "seed": 1}
+    )
+    assert res.status_code == 200
+    body = res.json()
+    assert len(body["sample_means"]) == 20
+    assert body["theoretical_se"] > 0
+    assert body["empirical_std"] > 0
+
+
+def test_clt_rejects_unknown_distribution():
+    res = client.get("/api/v1/clt", params={"distribution": "weibull"})
+    assert res.status_code == 422
