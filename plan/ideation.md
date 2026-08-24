@@ -68,6 +68,10 @@
 - [ ] Frontend → Vercel, Backend → Railway/Fly.io *(hướng dẫn đã có trong README, chờ tài khoản platform)*
 - [x] README quick start theo flow mới
 
+### **Tech Debt ghi nhận**
+- [x] Thêm CORS middleware cho origin frontend local; nâng Next lên bản vá 14.2.35; nâng axios lên bản vá 1.19.0 (2026-08-24)
+- [ ] Nâng cấp Next.js 14 → 16 để xử lý nốt nhóm advisory `next` + `postcss` lồng nhau — đây là bài nâng cấp **major** (kéo theo React 19, cần kiểm tra lại Recharts/Tailwind), lên kế hoạch riêng khi dự án ổn định
+
 ---
 
 ## 📚 Case Study Thống Kê (Bài Toán)
