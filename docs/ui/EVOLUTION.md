@@ -11,6 +11,7 @@ Loại: `JOURNAL` (nhận xét khi tự dùng) · `DECISION` (chốt cách làm)
 
 ## 📒 Nhật ký & quyết định
 
+- 2026-08-24 · JOURNAL · Lần 2 dính họ lỗi `.next`: `next dev` của người dùng trả 500 toàn trang sau khi production build ghi đè — fix chuẩn vẫn là kill server theo PID cổng + `rm -rf .next`; đã bổ sung hàng troubleshooting tương ứng vào INIT-GUIDE. Bài học vận hành: **tránh chạy `npm run build` khi `npm run dev` đang bật** (hai chế độ dùng chung `.next`)
 - 2026-08-24 · DECISION · Chuẩn hoá icon bằng thư viện `lucide-react` (bỏ glyph Unicode `←` vì em-box lệch baseline gây lệch chip) — quy ước ghi ở DESIGN-SYSTEM.md §8
 - 2026-08-24 · DONE · Tách component thật đầu tiên `components/ui/BackChip.tsx`; cả 3 trang trạm chuyển sang `<BackChip />` — sửa một chỗ, mọi nơi hưởng
 - 2026-08-24 · JOURNAL · Gặp 500 trên MỌI trang khi test bằng `next start` dù build báo xanh — nguyên nhân: server zombie từ phiên cũ còn giữ `.next` trong khi build mới ghi đè lên → webpack-runtime mất chunk (`Cannot find module './991.js'`). Bài học: trước `npm run build`, luôn chắc chắn không còn process cũ (kiểm tra `ss -ltnp`); nếu nghi ngờ, `rm -rf .next && npm run build`. Cẩn thận với `pkill -f`: pattern khớp cả cmdline của chính shell mình → dùng mẹo ngoặc vuông (`pkill -f 'nex[t]-server'`)

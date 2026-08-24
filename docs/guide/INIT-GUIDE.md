@@ -133,6 +133,7 @@ cd frontend/next-app && npm run build      # kỳ vọng: ✓ Compiled successfu
 | Ô đỏ *"Không kết nối được API"* trên web | Backend chưa bật/crash | Kiểm tra Terminal 1 còn log không |
 | Console trình duyệt báo CORS | Đổi port frontend | Thêm origin vào `ALLOWED_ORIGINS` |
 | `EADDRINUSE :8000/:3000` | Port bị chiếm | `lsof -i :8000` → `kill <PID>` |
+| `Cannot find module './xxx.js'` trong `.next/server/webpack-runtime.js` — mọi trang trả 500 | `.next` hỏng: dev/build đè lên nhau, hoặc server cũ còn sống trong lúc build | Tắt mọi server → `rm -rf .next` → chạy lại `npm run dev` |
 | Sửa code frontend không thấy đổi | Cache Next.js | Ctrl+C → `rm -rf .next` → `npm run dev` |
 
 **Khi nào cần chạy lại `npm install`?** — Sau mỗi lần `git pull` mà thấy
