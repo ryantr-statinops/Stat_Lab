@@ -46,27 +46,27 @@
 - [x] Commit thay đổi treo ở `lab/R/UNI_D.R`
 - [x] Khóa định hướng 60/40 trong tài liệu
 
-### **Stage 1: Dọn kỹ thuật nợ backend**
-- [ ] Refactor `main.py` gọi `services/lcg_service.py` thay vì inline
-- [ ] Sửa expected values sai trong test LCG
-- [ ] Thêm pytest vào requirements-dev, chạy green toàn bộ test
-- [ ] Phân tích chu kỳ LCG (cycle length) trong response
+### **Stage 1: Dọn kỹ thuật nợ backend** ✅
+- [x] Refactor `main.py` gọi `services/lcg_service.py` thay vì inline
+- [x] Sửa expected values sai trong test LCG
+- [x] Thêm pytest vào requirements-dev, chạy green toàn bộ test (31 passed)
+- [x] Phân tích chu kỳ LCG (cycle length) trong response
 
-### **Stage 2: Frontend sống lại**
-- [ ] Bổ sung `layout.tsx`, tsconfig, cài Tailwind đúng chuẩn
-- [ ] Dashboard shell + điều hướng chọn bài toán
-- [ ] Client validation + loading/error states
+### **Stage 2: Frontend sống lại** ✅
+- [x] Bổ sung `layout.tsx`, tsconfig, cài Tailwind đúng chuẩn (+ nâng Next lên bản vá bảo mật 14.2.35)
+- [x] Dashboard shell + điều hướng chọn bài toán
+- [x] Client validation + loading/error states
 
-### **Stage 3: Mở rộng nội dung thống kê**
-- [ ] Endpoint Box-Muller (phân phối chuẩn)
-- [ ] Endpoint mô phỏng CLT
-- [ ] Endpoint histogram bins (server-side)
-- [ ] Trang frontend tương ứng với biểu đồ Recharts
+### **Stage 3: Mở rộng nội dung thống kê** ✅
+- [x] Endpoint Box-Muller (phân phối chuẩn)
+- [x] Endpoint mô phỏng CLT
+- [x] Endpoint histogram bins (server-side)
+- [x] Trang frontend tương ứng với biểu đồ Recharts
 
 ### **Stage 4: Deploy không Docker**
-- [ ] Gỡ `docker-compose.yml`, `Dockerfile.dev`
-- [ ] Frontend → Vercel, Backend → Railway/Fly.io
-- [ ] README quick start theo flow mới
+- [x] Gỡ `docker-compose.yml`, `Dockerfile.dev` (giữ Dockerfile backend như tuỳ chọn)
+- [ ] Frontend → Vercel, Backend → Railway/Fly.io *(hướng dẫn đã có trong README, chờ tài khoản platform)*
+- [x] README quick start theo flow mới
 
 ---
 
