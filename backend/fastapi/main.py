@@ -2,10 +2,12 @@
 FastAPI Backend cho Statistical Computing Lab
 Endpoint chính: /api/v1/lcg
 """
+from typing import List
+
 from fastapi import FastAPI, Query
 from pydantic import BaseModel
-from typing import List
-import numpy as np
+
+from services.lcg_service import lcg_generator
 
 app = FastAPI(
     title="Statistical Computing Lab API",
@@ -31,13 +33,8 @@ async def generate_lcg(
     
     Công thức: X[i] = (a * X[i-1] + c) % m
     """
-    sequence = []
-    x = X0
-    
-    for i in range(n):
-        x = (a * x + c) % m
-        sequence.append(x)
-    
+    sequence = lcg_generator(X0=X0, a=a, n=n, c=c, m=m)
+
     return LCGResponse(sequence=sequence, count=len(sequence))
 
 
