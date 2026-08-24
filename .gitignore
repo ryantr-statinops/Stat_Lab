@@ -53,3 +53,6 @@ npm-debug.log*
 coverage/
 .nyc_output/
 .pytest_cache/
+
+# Personal notes (ghi chú chạy local riêng tư, không commit)
+note.txt
