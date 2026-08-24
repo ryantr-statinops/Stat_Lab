@@ -5,6 +5,7 @@ node_modules/
 
 # Production
 .next/
+.next-verify/
 out/
 
 # Environment files
