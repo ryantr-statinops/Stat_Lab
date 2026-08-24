@@ -2,11 +2,13 @@
 FastAPI Backend cho Statistical Computing Lab
 Endpoint chính: /api/v1/lcg
 """
+import math
 from typing import List, Optional
 
 from fastapi import FastAPI, Query
 from pydantic import BaseModel
 
+from services.distributions_service import box_muller_samples
 from services.lcg_service import lcg_cycle_length, lcg_generator
 
 app = FastAPI(
@@ -59,6 +61,39 @@ async def generate_lcg(
         theoretical_max_period=m,
         cycle_length=cycle_length,
         notes=notes,
+    )
+
+
+class NormalResponse(BaseModel):
+    samples: List[float]
+    count: int
+    sample_mean: float
+    sample_std: float
+
+
+@app.get("/api/v1/normal", response_model=NormalResponse)
+async def generate_normal(
+    mean: float = Query(0.0, description="Kỳ vọng μ"),
+    std: float = Query(1.0, gt=0, description="Độ lệch chuẩn σ"),
+    n: int = Query(1000, ge=10, le=10000, description="Số mẫu cần sinh"),
+    seed: Optional[int] = Query(None, description="Seed để tái lập kết quả"),
+):
+    """
+    Lấy mẫu phân phối chuẩn bằng biến đổi Box-Muller.
+
+    Hai biến đều U1, U2 cho ra hai chuẩn tắc độc lập Z0, Z1.
+    """
+    samples = box_muller_samples(mean=mean, std=std, n=n, seed=seed)
+
+    total = len(samples)
+    sample_mean = sum(samples) / total
+    sample_var = sum((x - sample_mean) ** 2 for x in samples) / (total - 1)
+
+    return NormalResponse(
+        samples=samples,
+        count=total,
+        sample_mean=sample_mean,
+        sample_std=math.sqrt(sample_var),
     )
 
 
