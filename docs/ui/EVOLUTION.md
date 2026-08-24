@@ -11,6 +11,7 @@ Loại: `JOURNAL` (nhận xét khi tự dùng) · `DECISION` (chốt cách làm)
 
 ## 📒 Nhật ký & quyết định
 
+- 2026-08-24 · JOURNAL · Sau khi tách BackChip sang `components/ui/`, chip vỡ layout dù code đúng — nguyên nhân kinh điển: `tailwind.config.js > content` chỉ quét `./app/**` nên class riêng của component không được sinh CSS. Fix: thêm `"./components/**/*.{js,ts,jsx,tsx}"`. **Quy tắc sống còn của Tailwind: tạo thư mục source mới = phải cập nhật content globs**, nếu không class sẽ âm thầm biến mất
 - 2026-08-24 · JOURNAL · Lần 2 dính họ lỗi `.next`: `next dev` của người dùng trả 500 toàn trang sau khi production build ghi đè — fix chuẩn vẫn là kill server theo PID cổng + `rm -rf .next`; đã bổ sung hàng troubleshooting tương ứng vào INIT-GUIDE. Bài học vận hành: **tránh chạy `npm run build` khi `npm run dev` đang bật** (hai chế độ dùng chung `.next`)
 - 2026-08-24 · DECISION · Chuẩn hoá icon bằng thư viện `lucide-react` (bỏ glyph Unicode `←` vì em-box lệch baseline gây lệch chip) — quy ước ghi ở DESIGN-SYSTEM.md §8
 - 2026-08-24 · DONE · Tách component thật đầu tiên `components/ui/BackChip.tsx`; cả 3 trang trạm chuyển sang `<BackChip />` — sửa một chỗ, mọi nơi hưởng

@@ -38,7 +38,10 @@ dùng `ArrowLeft` từ lucide-react). Các khối còn lại vẫn nội tuyến
 1. **Trigger**: khi thêm trang trạm thứ 4 tái dùng ≥3 khối ở trên → tạo
    `app/components/ui/*.tsx` với API prop tối thiểu như bảng
 2. Mỗi component tách ra phải giữ đúng class chuẩn trong DESIGN-SYSTEM.md
-3. Chưa cần Storybook — giai đoạn này tự kiểm tra bằng 2 độ rộng trình duyệt
+3. ⚠️ **Khi đưa component vào thư mục mới**: nhớ bổ sung glob tương ứng vào
+   `tailwind.config.js > content` — nếu không, Tailwind sẽ không sinh CSS cho
+   các class trong file đó (bẫy đã từng dính: xem EVOLUTION 2026-08-24)
+4. Chưa cần Storybook — giai đoạn này tự kiểm tra bằng 2 độ rộng trình duyệt
 
 ---
 
