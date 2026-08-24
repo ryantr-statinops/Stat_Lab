@@ -82,3 +82,13 @@ def test_histogram_endpoint_bin_counts_match_total():
 def test_histogram_rejects_unknown_source():
     res = client.get("/api/v1/histogram", params={"source": "beta"})
     assert res.status_code == 422
+
+
+def test_cors_allows_local_frontend_origin():
+    res = client.get("/api/v1/lcg", headers={"Origin": "http://localhost:3000"})
+    assert res.headers.get("access-control-allow-origin") == "http://localhost:3000"
+
+
+def test_cors_rejects_unknown_origin():
+    res = client.get("/api/v1/lcg", headers={"Origin": "http://evil.example.com"})
+    assert res.headers.get("access-control-allow-origin") is None
