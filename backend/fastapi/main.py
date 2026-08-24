@@ -6,6 +6,7 @@ import math
 from typing import List, Optional
 
 from fastapi import FastAPI, Query
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from services.clt_service import sample_means, theoretical_mean_se
@@ -16,6 +17,21 @@ from services.lcg_service import lcg_cycle_length, lcg_generator
 app = FastAPI(
     title="Statistical Computing Lab API",
     version="0.1.0"
+)
+
+# Cho phép frontend Next.js ở local gọi API từ trình duyệt.
+# Khi deploy production, thêm origin thật của bạn (VD https://statlab.vercel.app).
+ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=ALLOWED_ORIGINS,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
