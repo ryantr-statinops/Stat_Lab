@@ -88,6 +88,11 @@ npm run dev
 
 Đợi dòng `✓ Ready`, rồi mở <http://localhost:3000>.
 
+> 🧪 Muốn kiểm tra bản production-build mà **không làm hỏng** phiên `npm run dev`
+> đang bật? Dùng kênh cách ly: `npm run verify:ui` — tự build vào thư mục
+> `.next-verify` riêng và serve ở cổng 3100, không đụng vào `.next` của dev.
+> (Lý do: dev/build dùng chung `.next` nếu không tách — xem Troubleshooting.)
+
 **✅ Kiểm tra trải nghiệm trọn vẹn:**
 
 1. Dashboard hiển thị 3 topic card: LCG · Phân phối chuẩn · CLT
