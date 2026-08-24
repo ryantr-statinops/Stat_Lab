@@ -6,6 +6,7 @@ import pytest
 
 from services.clt_service import sample_means, theoretical_mean_se
 from services.distributions_service import box_muller_samples, uniform_samples
+from services.histogram_service import histogram_bins
 
 
 def test_box_muller_reproducible_with_same_seed():
@@ -61,3 +62,31 @@ def test_clt_reproducible_with_same_seed():
 def test_clt_rejects_unknown_distribution():
     with pytest.raises(ValueError):
         sample_means(10, 5, "cauchy")
+
+
+def test_histogram_counts_sum_to_total():
+    xs = uniform_samples(n=1000, seed=2)
+    bins = histogram_bins(xs, n_bins=10)
+    assert sum(b["count"] for b in bins) == 1000
+
+
+def test_histogram_edges_are_contiguous():
+    xs = box_muller_samples(n=200, seed=3)
+    bins = histogram_bins(xs, n_bins=8)
+    for prev, cur in zip(bins, bins[1:]):
+        assert cur["lower"] == prev["upper"]
+
+
+def test_histogram_handles_constant_series():
+    bins = histogram_bins([5.0] * 50, n_bins=4)
+    assert sum(b["count"] for b in bins) == 50
+    assert bins[0]["count"] == 50  # width fallback -> mọi điểm ở bin đầu
+
+
+def test_histogram_rejects_non_positive_nbins():
+    with pytest.raises(ValueError):
+        histogram_bins([1.0, 2.0], n_bins=0)
+
+
+def test_histogram_empty_input_returns_empty():
+    assert histogram_bins([], n_bins=5) == []

@@ -65,3 +65,20 @@ def test_clt_endpoint_returns_simulation_and_theory():
 def test_clt_rejects_unknown_distribution():
     res = client.get("/api/v1/clt", params={"distribution": "weibull"})
     assert res.status_code == 422
+
+
+def test_histogram_endpoint_bin_counts_match_total():
+    res = client.get(
+        "/api/v1/histogram",
+        params={"source": "uniform", "n": 800, "n_bins": 12, "seed": 4},
+    )
+    assert res.status_code == 200
+    body = res.json()
+    assert len(body["bins"]) == 12
+    assert sum(b["count"] for b in body["bins"]) == 800
+    assert body["total"] == 800
+
+
+def test_histogram_rejects_unknown_source():
+    res = client.get("/api/v1/histogram", params={"source": "beta"})
+    assert res.status_code == 422
