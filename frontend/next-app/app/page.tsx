@@ -17,16 +17,18 @@ const TOPICS: Topic[] = [
     status: "ready",
   },
   {
+    href: "/normal",
     title: "Phân phối chuẩn",
     desc: "Lấy mẫu biến đổi Box-Muller kèm biểu đồ histogram tương tác.",
     formula: "Z = √(−2 ln U) · cos(2πV)",
-    status: "soon",
+    status: "ready",
   },
   {
+    href: "/clt",
     title: "CLT",
     desc: "Mô phỏng Định lý Giới hạn Trung tâm trên các phân phối nền khác nhau.",
     formula: "X̄ → N(μ, σ²/n)",
-    status: "soon",
+    status: "ready",
   },
 ];
 

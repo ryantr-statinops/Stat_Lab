@@ -10,6 +10,8 @@ export const metadata: Metadata = {
 const NAV = [
   { href: "/", label: "Tổng quan" },
   { href: "/lcg", label: "LCG" },
+  { href: "/normal", label: "Chuẩn" },
+  { href: "/clt", label: "CLT" },
 ];
 
 export default function RootLayout({
