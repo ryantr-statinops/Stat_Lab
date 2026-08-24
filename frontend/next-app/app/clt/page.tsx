@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 import axios from "axios";
+
+import BackChip from "@/components/ui/BackChip";
 import {
   Bar,
   BarChart,
@@ -104,12 +105,7 @@ export default function CltPage() {
 
   return (
     <main className="max-w-4xl mx-auto p-6 space-y-6">
-      <Link
-        href="/"
-        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white border border-gray-200 shadow-sm text-xs font-medium text-gray-500 hover:border-blue-300 hover:text-blue-600 transition-colors"
-      >
-        ← Tổng quan
-      </Link>
+      <BackChip />
 
       <header>
         <p className="text-sm font-medium text-blue-600">
