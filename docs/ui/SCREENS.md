@@ -1,0 +1,84 @@
+# 🖥️ SCREENS — Sơ đồ & giải phẫu màn hình
+
+> Mỗi trang có một section riêng đánh số. **Thêm trang mới = thêm section theo
+> template ở cuối file** — không tạo file .md mới.
+
+## 1. Sitemap
+
+```
+frontend/next-app/app/
+├── layout.tsx      # khung chung: header + nav + footer
+├── page.tsx        # "/"           Tổng quan dashboard   (server component)
+├── lcg/page.tsx    # "/lcg"        Trạm LCG              (client)
+├── normal/page.tsx # "/normal"     Trạm phân phối chuẩn  (client)
+└── clt/page.tsx    # "/clt"        Trạm CLT              (client)
+```
+
+Quy ước: trang dashboard là server component (tĩnh, nhẹ); mọi trang trạm là
+`"use client"` vì cần state form.
+
+## 2. Khung chung (`layout.tsx`)
+
+```
+┌────────────────────────────────────────────────────────┐
+│ 🔷 StatLab        Tổng quan | LCG | Chuẩn | CLT   ←sticky│
+├────────────────────────────────────────────────────────┤
+│                    {children}                          │
+├────────────────────────────────────────────────────────┤
+│ footer: motto 1 dòng                                   │
+└────────────────────────────────────────────────────────┘
+```
+
+- Header: `sticky top-0 bg-white/90 backdrop-blur border-b`, cao `h-14`
+- Nav item: `px-3 py-1.5 rounded-md hover:bg-gray-100`
+- ⚠️ Đã biết: chưa highlight mục đang active (xem EVOLUTION backlog)
+
+## 3. Giải phẫu chuẩn một trang "trạm thí nghiệm"
+
+Mọi trang trạm đi theo cùng 4 khối, thứ tự cố định:
+
+```
+① PageHeader   kicker (tên kỹ thuật) → h1 → công thức/mô tả 1 dòng
+② FormCard     card trắng grid các Field + nút submit span full
+③ ErrorAlert   (render có điều kiện) role="alert"
+④ Result       chips thống kê → notes giáo dục → card biểu đồ
+```
+
+Luật bất di bất dịch:
+- **Mọi con số phải kèm đối chiếu lý thuyết** (`s ≈ σ`, `SE = σ/√n`)
+- **Mọi kết quả phải có ít nhất 1 note giáo dục** giải thích ý nghĩa thống kê
+- Tham số form hợp lệ/bất hợp lệ được kiểm tra **client-side trước** khi gọi API
+
+## 4. `/` — Dashboard tổng quan
+
+- Hero căn giữa + câu định vị dự án
+- Grid 3 card topic: trạng thái `ready` → Link hover nổi; `soon` → dashed + opacity
+- Card gồm: tên · badge trạng thái · mô tả · code công thức
+
+## 5. `/lcg`
+
+Khác biệt so với pattern: kết quả là **dãy số** chứ không phải biểu đồ —
+hiển thị `pre` wrap toàn dãy; badge chu kỳ đổi xanh khi `cycle_length == m`.
+
+## 6. `/normal`
+
+Form 4 trường (μ, σ, n, seed-text). Kết quả: histogram **40 bins tính client-side**
+qua `lib/stats.ts` + chips `x̄ ≈ μ`, `s ≈ σ`.
+
+## 7. `/clt`
+
+Form có select phân phối nền. Kết quả: histogram trung bình mẫu +
+`ReferenceLine` μ lý thuyết; badge so sánh `s` vs `SE` với ngưỡng chấp nhận 20%.
+
+---
+
+## 📋 Template — khi thêm trang trạm mới
+
+```md
+## N. /duong-dan — Tên trạm
+
+Form: [liệt kê trường + ràng buộc]
+Kết quả: [biểu đồ/dãy gì, bin bao nhiêu, tính ở đâu]
+Đối chiếu lý thuyết: [chip nào so với gì]
+Khác biệt so với pattern chuẩn: [ghi rõ nếu có]
+```
