@@ -6,11 +6,11 @@ import axios from "axios";
 import BackChip from "@/components/ui/BackChip";
 
 type LcgParams = {
-  X0: number;
-  a: number;
-  n: number;
-  c: number;
-  m: number;
+  X0: string;
+  a: string;
+  n: string;
+  c: string;
+  m: string;
 };
 
 type LcgStep = {
@@ -39,37 +39,56 @@ const FIELDS: { name: keyof LcgParams; label: string; hint: string }[] = [
 ];
 
 export default function LcgPage() {
-  const [params, setParams] = useState<LcgParams>({ X0: 3, a: 7, n: 20, c: 4, m: 99 });
+  const [params, setParams] = useState<LcgParams>({
+    X0: "3",
+    a: "7",
+    n: "20",
+    c: "4",
+    m: "99",
+  });
   const [result, setResult] = useState<LcgResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setParams((prev) => ({ ...prev, [name]: parseInt(value, 10) || 0 }));
+    // Lưu chuỗi thô để ô input có thể rỗng khi người dùng xoá —
+    // việc parse sang số chỉ diễn ra lúc submit (buildPayload).
+    setParams((prev) => ({ ...prev, [name]: value }));
   };
 
-  const validate = (): string | null => {
+  const buildPayload = (): {
+    ok: true;
+    data: Record<keyof LcgParams, number>;
+  } | { ok: false; error: string } => {
+    const data: Partial<Record<keyof LcgParams, number>> = {};
     for (const key of Object.keys(params) as (keyof LcgParams)[]) {
-      if (!Number.isInteger(params[key])) return `${key.toUpperCase()} phải là số nguyên.`;
+      const raw = params[key].trim();
+      if (!/^-?\d+$/.test(raw)) {
+        return { ok: false, error: `${key.toUpperCase()} phải là số nguyên.` };
+      }
+      data[key] = parseInt(raw, 10);
     }
-    if (params.m <= 0) return "m (modulo) phải lớn hơn 0.";
-    if (params.n < 1 || params.n > 10000) return "n phải nằm trong khoảng 1 .. 10000.";
-    return null;
+    if ((data.m ?? 0) <= 0) return { ok: false, error: "m (modulo) phải lớn hơn 0." };
+    if ((data.n ?? 0) < 1 || (data.n ?? 0) > 10000)
+      return { ok: false, error: "n phải nằm trong khoảng 1 .. 10000." };
+    return { ok: true, data: data as Record<keyof LcgParams, number> };
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const invalid = validate();
-    if (invalid) {
-      setError(invalid);
+    const parsed = buildPayload();
+    if (!parsed.ok) {
+      setError(parsed.error);
       return;
     }
     setLoading(true);
     setError(null);
 
     try {
-      const res = await axios.get<LcgResult>(`${API_URL}/api/v1/lcg`, { params });
+      const res = await axios.get<LcgResult>(`${API_URL}/api/v1/lcg`, {
+        params: parsed.data,
+      });
       setResult(res.data);
     } catch (err) {
       const detail = axios.isAxiosError(err) ? err.response?.data?.detail : null;
