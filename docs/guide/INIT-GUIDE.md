@@ -41,7 +41,7 @@
 ## Bước 0 — Clone repo
 
 ```bash
-git clone git@github.com:ryantr-statinops/Statistical_Computing_Function.git
+git clone git@github.com:ryantr-statinops/Stat_Lab.git
 cd Statistical_Computing_Function
 ```
 

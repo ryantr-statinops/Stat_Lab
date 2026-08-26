@@ -11,6 +11,7 @@ Loại: `JOURNAL` (nhận xét khi tự dùng) · `DECISION` (chốt cách làm)
 
 ## 📒 Nhật ký & quyết định
 
+- 2026-08-24 · DONE · `/lcg` thay pre-text bằng bảng `lcg_table` 3 cột; API bổ sung `steps[]` qua service `lcg_steps` (port từ R); repo GitHub đổi tên thành **Stat_Lab** (remote + hướng dẫn clone đã cập nhật)
 - 2026-08-24 · DECISION · Lập kênh xác minh cách ly `npm run verify:ui`: build + serve trên `.next-verify` riêng, cổng 3100 — chấm dứt vĩnh viễn xung đột `.next` giữa phiên dev của người dùng và các lần build kiểm chứng tự động
 - 2026-08-24 · JOURNAL · Sau khi tách BackChip sang `components/ui/`, chip vỡ layout dù code đúng — nguyên nhân kinh điển: `tailwind.config.js > content` chỉ quét `./app/**` nên class riêng của component không được sinh CSS. Fix: thêm `"./components/**/*.{js,ts,jsx,tsx}"`. **Quy tắc sống còn của Tailwind: tạo thư mục source mới = phải cập nhật content globs**, nếu không class sẽ âm thầm biến mất
 - 2026-08-24 · JOURNAL · Lần 2 dính họ lỗi `.next`: `next dev` của người dùng trả 500 toàn trang sau khi production build ghi đè — fix chuẩn vẫn là kill server theo PID cổng + `rm -rf .next`; đã bổ sung hàng troubleshooting tương ứng vào INIT-GUIDE. Bài học vận hành: **tránh chạy `npm run build` khi `npm run dev` đang bật** (hai chế độ dùng chung `.next`)

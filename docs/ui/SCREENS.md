@@ -58,8 +58,10 @@ Luật bất di bất dịch:
 
 ## 5. `/lcg`
 
-Khác biệt so với pattern: kết quả là **dãy số** chứ không phải biểu đồ —
-hiển thị `pre` wrap toàn dãy; badge chu kỳ đổi xanh khi `cycle_length == m`.
+Khác biệt so với pattern: kết quả là **bảng tính từng bước** port từ hàm
+`lcg_table` (lab/R/LCG.R) — 3 cột `n · a·X(n−1)+c · Xₙ`, zebra rows, scroll
+trong max-h-72; dữ liệu đến từ trường `steps` của response API.
+Badge chu kỳ đổi xanh khi `cycle_length == m`.
 
 ## 6. `/normal`
 
