@@ -84,6 +84,25 @@ def test_histogram_rejects_unknown_source():
     assert res.status_code == 422
 
 
+def test_lcg_endpoint_returns_step_table():
+    res = client.get(
+        "/api/v1/lcg", params={"X0": 3, "a": 7, "n": 5, "c": 4, "m": 99}
+    )
+    assert res.status_code == 200
+    body = res.json()
+    assert len(body["steps"]) == 5
+    assert body["steps"][0] == {"index": 1, "equation": 25, "xn": 25}
+    # Bước sau dùng Xn của bước trước làm đầu vào
+    expected_eq2 = 7 * body["steps"][0]["xn"] + 4
+    assert body["steps"][1]["equation"] == expected_eq2
+
+
+def test_lcg_sequence_matches_steps_column():
+    res = client.get("/api/v1/lcg", params={"n": 6})
+    body = res.json()
+    assert [s["xn"] for s in body["steps"]] == body["sequence"]
+
+
 def test_cors_allows_local_frontend_origin():
     res = client.get("/api/v1/lcg", headers={"Origin": "http://localhost:3000"})
     assert res.headers.get("access-control-allow-origin") == "http://localhost:3000"

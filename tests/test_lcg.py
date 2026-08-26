@@ -2,7 +2,11 @@
 Test cases cho LCG service
 """
 import pytest
-from backend.fastapi.services.lcg_service import lcg_cycle_length, lcg_generator
+from backend.fastapi.services.lcg_service import (
+    lcg_cycle_length,
+    lcg_generator,
+    lcg_steps,
+)
 
 
 def test_lcg_basic():
@@ -50,3 +54,28 @@ def test_lcg_cycle_short_period():
 def test_lcg_cycle_returns_none_beyond_limit():
     """max_steps nhỏ hơn chu kỳ thật -> trả về None"""
     assert lcg_cycle_length(0, 5, 1, 8, max_steps=3) is None
+
+
+def test_lcg_steps_matches_manual_r_table():
+    """Đối chiếu bảng tính tay cho X0=3,a=7,c=4,m=99 — như lcg_table trong R"""
+    steps = lcg_steps(3, 7, 5, 4, 99)
+    assert [(s["index"], s["equation"], s["xn"]) for s in steps] == [
+        (1, 25, 25),
+        (2, 179, 80),
+        (3, 564, 69),
+        (4, 487, 91),
+        (5, 641, 47),
+    ]
+
+
+def test_lcg_steps_chain_property():
+    """equation(i) = a·xn(i-1)+c với xn(0)=X0; xn(i) = equation(i) % m"""
+    prev = 3
+    for s in lcg_steps(3, 7, 6, 4, 99):
+        assert s["equation"] == 7 * prev + 4
+        assert s["xn"] == s["equation"] % 99
+        prev = s["xn"]
+
+
+def test_lcg_steps_empty_when_n_zero():
+    assert lcg_steps(3, 7, 0, 4, 99) == []
