@@ -169,22 +169,25 @@ export default function LcgPage() {
 
           <div className="rounded-lg border border-gray-200 overflow-hidden">
             <div className="max-h-72 overflow-auto">
-              <table className="w-full text-xs">
+              <table className="w-full table-fixed text-xs">
                 <thead className="sticky top-0 bg-gray-50 text-gray-500 uppercase tracking-wide">
-                  <tr>
-                    <th className="px-3 py-2 text-left font-medium">n</th>
-                    <th className="px-3 py-2 text-right font-medium">a·X(n−1) + c</th>
-                    <th className="px-3 py-2 text-right font-medium">Xₙ</th>
+                  <tr className="divide-x divide-gray-200">
+                    <th className="px-3 py-2 text-center font-medium">n</th>
+                    <th className="px-3 py-2 text-center font-medium">a·X(n−1) + c</th>
+                    <th className="px-3 py-2 text-center font-medium">Xₙ</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100 font-mono">
                   {result.steps.map((s) => (
-                    <tr key={s.index} className={s.index % 2 === 0 ? "bg-gray-50" : ""}>
-                      <td className="px-3 py-1.5">{s.index}</td>
-                      <td className="px-3 py-1.5 text-right">
+                    <tr
+                      key={s.index}
+                      className={`divide-x divide-gray-100 ${s.index % 2 === 0 ? "bg-gray-50" : ""}`}
+                    >
+                      <td className="px-3 py-1.5 text-center">{s.index}</td>
+                      <td className="px-3 py-1.5 text-center">
                         {s.equation.toLocaleString("vi-VN")}
                       </td>
-                      <td className="px-3 py-1.5 text-right font-semibold text-blue-700">
+                      <td className="px-3 py-1.5 text-center font-semibold text-blue-700">
                         {s.xn.toLocaleString("vi-VN")}
                       </td>
                     </tr>
