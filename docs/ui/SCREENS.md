@@ -59,8 +59,9 @@ Luật bất di bất dịch:
 ## 5. `/lcg`
 
 Khác biệt so với pattern: kết quả là **bảng tính từng bước** port từ hàm
-`lcg_table` (lab/R/LCG.R) — 3 cột `n · a·X(n−1)+c · Xₙ`, zebra rows, scroll
-trong max-h-72; dữ liệu đến từ trường `steps` của response API.
+`lcg_table` (lab/R/LCG.R) — 3 cột đều width (`table-fixed`), nội dung căn
+giữa, phân cách dọc `divide-x`, zebra rows, scroll trong max-h-72; dữ liệu
+đến từ trường `steps` của response API.
 Badge chu kỳ đổi xanh khi `cycle_length == m`.
 
 ## 6. `/normal`
