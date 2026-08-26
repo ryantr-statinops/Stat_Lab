@@ -1,4 +1,15 @@
-# Service modules
-from .lcg_service import lcg_generator, lcg_with_numpy
+"""Service modules cho Statistical Computing Lab."""
 
-__all__ = ['lcg_generator', 'lcg_with_numpy']
+from .lcg_service import (
+    lcg_generator,
+    lcg_cycle_length,
+    lcg_steps,
+    lcg_with_numpy,
+)
+
+__all__ = [
+    "lcg_generator",
+    "lcg_cycle_length",
+    "lcg_steps",
+    "lcg_with_numpy",
+]
