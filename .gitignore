@@ -57,3 +57,6 @@ coverage/
 
 # Personal notes (ghi chú chạy local riêng tư, không commit)
 note.txt
+
+# Positron bug: snowflake.log có thể sinh ra ở BẤT KỲ thư mục nào trong project
+**/snowflake.log
