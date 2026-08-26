@@ -30,8 +30,11 @@ Quy ước: trang dashboard là server component (tĩnh, nhẹ); mọi trang tr�
 ```
 
 - Header: `sticky top-0 bg-white/90 backdrop-blur border-b`, cao `h-14`
-- Nav item: `px-3 py-1.5 rounded-md hover:bg-gray-100`
-- ⚠️ Đã biết: chưa highlight mục đang active (xem EVOLUTION backlog)
+- Nav (`components/ui/SiteNav.tsx`, client component): link **Tổng quan** +
+  dropdown **Feature ▾** gom LCG · Chuẩn · CLT; mở/đóng bằng click, tự đóng
+  khi click ra ngoài hoặc khi chuyển trang
+- Active state: mục khớp pathname được highlight `bg-blue-50 text-blue-700`
+  (nút Feature cũng sáng khi đang ở bất kỳ trang trạm nào)
 
 ## 3. Giải phẫu chuẩn một trang "trạm thí nghiệm"
 

@@ -11,6 +11,7 @@ Loại: `JOURNAL` (nhận xét khi tự dùng) · `DECISION` (chốt cách làm)
 
 ## 📒 Nhật ký & quyết định
 
+- 2026-08-24 · DONE · Navbar mới: gom LCG · Chuẩn · CLT vào dropdown **Feature** (component `SiteNav`) + highlight mục active theo pathname — xoá item 🔴 *nav-active* khỏi backlog
 - 2026-08-24 · DONE · Bảng LCG tinh chỉnh layout: 3 cột width đều (`table-fixed`), nội dung căn giữa, thêm đường phân cách dọc `divide-x`
 - 2026-08-24 · DONE · `/lcg` thay pre-text bằng bảng `lcg_table` 3 cột; API bổ sung `steps[]` qua service `lcg_steps` (port từ R); repo GitHub đổi tên thành **Stat_Lab** (remote + hướng dẫn clone đã cập nhật)
 - 2026-08-24 · DECISION · Lập kênh xác minh cách ly `npm run verify:ui`: build + serve trên `.next-verify` riêng, cổng 3100 — chấm dứt vĩnh viễn xung đột `.next` giữa phiên dev của người dùng và các lần build kiểm chứng tự động
@@ -38,7 +39,6 @@ Loại: `JOURNAL` (nhận xét khi tự dùng) · `DECISION` (chốt cách làm)
 | Prio | Item | Ghi chú kỹ thuật | Xuất phát từ |
 |---|---|---|---|
 | 🔴 Cao | Favicon qua `app/icon.svg` | tái dùng `/logo.svg` | JOURNAL favicon |
-| 🔴 Cao | Nav active state bằng `usePathname()` | so sánh href, thêm class active | JOURNAL nav |
 | 🟠 TB | LCG result → grid + Copy button | `navigator.clipboard.writeText` | JOURNAL dãy khó đọc |
 | 🟠 TB | Đồng bộ form ↔ URL search params | `useSearchParams`, share link được | JOURNAL refresh mất tham số |
 | 🟠 TB | Tiêu đề trục biểu đồ | XAxis/YAxis label Recharts | JOURNAL trục |

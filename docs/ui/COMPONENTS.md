@@ -5,10 +5,10 @@
 
 ## 📌 Trạng thái hiện tại
 
-Component thật đầu tiên đã ra đời: **`components/ui/BackChip.tsx`** (2026-08-24,
-dùng `ArrowLeft` từ lucide-react). Các khối còn lại vẫn nội tuyến trong
-`page.tsx` theo *rule of three* — bảng pseudo-catalog dưới đây là bản đồ để tách
-đúng lúc.
+Đã có **2 component thật** trong `components/ui/`: `BackChip.tsx` và `SiteNav.tsx`
+(dropdown điều hướng + active state, 2026-08-24). Các khối còn lại vẫn nội tuyến
+trong `page.tsx` theo *rule of three* — bảng pseudo-catalog dưới đây là bản đồ
+để tách đúng lúc.
 
 ## 🗂️ Pseudo-catalog (các khối lặp lại đang sống inline)
 
