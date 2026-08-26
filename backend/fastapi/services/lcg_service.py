@@ -3,7 +3,7 @@ Service xử lý Linear Congruential Generator
 Chuyển đổi logic từ file R gốc sang Python
 """
 import numpy as np
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 
 def lcg_generator(X0: int, a: int, n: int, c: int, m: int) -> List[int]:
@@ -58,6 +58,31 @@ def lcg_cycle_length(
         if x == X0:
             return i
     return None
+
+
+def lcg_steps(X0: int, a: int, n: int, c: int, m: int) -> List[Dict[str, int]]:
+    """
+    Port hàm `lcg_table` từ lab/R/LCG.R: trả về bảng tính từng bước.
+
+    Mỗi bước gồm:
+      - index   : số thứ tự (1..n)
+      - equation: giá trị a·X(i-1) + c TRƯỚC khi lấy modulo
+      - xn      : kết quả sau modulo, chính là X(i)
+
+    Thuộc tính chuỗi: equation(i+1) = a · xn(i) + c, xuất phát từ X0.
+    """
+    if n <= 0:
+        return []
+
+    steps: List[Dict[str, int]] = []
+    prev = X0
+    for i in range(1, n + 1):
+        equation = a * prev + c
+        xn = equation % m
+        steps.append({"index": i, "equation": equation, "xn": xn})
+        prev = xn
+
+    return steps
 
 
 def lcg_with_numpy(X0: int, a: int, n: int, c: int, m: int) -> np.ndarray:

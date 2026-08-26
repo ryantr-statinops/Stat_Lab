@@ -12,7 +12,7 @@ from pydantic import BaseModel
 from services.clt_service import sample_means, theoretical_mean_se
 from services.distributions_service import box_muller_samples, uniform_samples
 from services.histogram_service import histogram_bins
-from services.lcg_service import lcg_cycle_length, lcg_generator
+from services.lcg_service import lcg_cycle_length, lcg_generator, lcg_steps
 
 app = FastAPI(
     title="Statistical Computing Lab API",
@@ -35,12 +35,19 @@ app.add_middleware(
 )
 
 
+class LcgStep(BaseModel):
+    index: int
+    equation: int
+    xn: int
+
+
 class LCGResponse(BaseModel):
     sequence: List[int]
     count: int
     theoretical_max_period: int
     cycle_length: Optional[int] = None
     notes: List[str] = []
+    steps: List[LcgStep] = []
 
 
 @app.get("/api/v1/lcg", response_model=LCGResponse)
@@ -56,7 +63,8 @@ async def generate_lcg(
     
     Công thức: X[i] = (a * X[i-1] + c) % m
     """
-    sequence = lcg_generator(X0=X0, a=a, n=n, c=c, m=m)
+    steps = lcg_steps(X0=X0, a=a, n=n, c=c, m=m)
+    sequence = [s["xn"] for s in steps]
 
     # Phân tích chu kỳ: chỉ quét khi m ở mức hợp lý để giữ response nhanh
     cycle_length: Optional[int] = None
@@ -79,6 +87,7 @@ async def generate_lcg(
         theoretical_max_period=m,
         cycle_length=cycle_length,
         notes=notes,
+        steps=[LcgStep(**s) for s in steps],
     )
 
 
