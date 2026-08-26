@@ -72,6 +72,53 @@ frontend (3000)
 
 ---
 
+## 🛓️ Lộ trình triển khai (thứ tự làm)
+
+> Nguyên tắc: **xong Go gateway trước, Docker Compose để làm bước sau.** Lý do
+> và thời điểm bước sang Docker được nêu rõ bên dưới.
+
+### Phase 1 — Go gateway đứng riêng (LÀM NGAY)
+
+- Tạo `backend/gateway/` (Go service) làm API gateway `:8000`.
+- Phân chia route theo **Nhóm A/B ở trên** (forward → FastAPI `:8011`; Go tự lo health/meta/fallback).
+- Chạy local **thủ công 3 tiến trình** (Go `:8000`, FastAPI `:8011`, Next `:3000`) — để
+  **thấy rõ & debug từng lớp**, học cách service giao nhau.
+- FastAPI chuyển sang cổng `:8011`; CORS nằm ở gateway.
+
+> Xong Phase 1 => có "học Go + kiến trúc gateway", nhưng mỗi lần coding phải mở 3 terminal.
+
+### Phase 2 — Docker Compose gom lại (LÀM SAU)
+
+- Sau khi gateway Go hoạt động & bạn quen tiến trình, bổ sung `docker-compose.yml`
+  để **chạy cả hệ thống bằng 1 lệnh**, giảm rắc rối port ở local dev.
+- Mục tiêu: chỉ còn **2 cổng mở ra host** — `localhost:8000` (gateway) +
+  `localhost:3000` (frontend) — cổng FastAPI `:8011` **chỉ chạy trong mạng Docker
+  (nội bộ), không lòi ra ngoài**.
+- Vì sao ĐỂ SAU? Lợi ích lớn nhất của Compose là **gom 3 terminal thành 1** — nên
+  xây sau khi đã thấu hiểu 3 service. Docker hoá sớm dễ đánh mất góc nhìn
+  "tiến trình đang chạy thật" để học/debug.
+
+**Cấu trúc nháp (mô tả, chưa viết code cho project):**
+
+```yaml
+services:
+  gateway:                       # Go
+    build: ./backend/gateway
+    ports: ["8000:8000"]         # chỉ cổng này nổi ra
+
+  fastapi:                       # service tính toán — KHÔNG khai "ports"
+    build: ./backend/fastapi     #   → không nổi ra host, gateway gọi qua "fastapi"
+
+  frontend:                      # Next.js
+    build: ./frontend/next-app
+    ports: ["3000:3000"]
+```
+
+→ Khi chuyển lên Docker, trong Go gateway bạn gọi `http://fastapi:8011` thay vì
+`http://localhost:8011` (gọi theo **tên service** trong compose network).
+
+---
+
 ## ✅ Lợi ích / ⚠️ Rủi ro khi đi hướng này
 
 | Lợi ích | Rủi ro / cần cân nhắc |
