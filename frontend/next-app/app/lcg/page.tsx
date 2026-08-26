@@ -13,12 +13,19 @@ type LcgParams = {
   m: number;
 };
 
+type LcgStep = {
+  index: number;
+  equation: number;
+  xn: number;
+};
+
 type LcgResult = {
   sequence: number[];
   count: number;
   theoretical_max_period: number;
   cycle_length: number | null;
   notes: string[];
+  steps: LcgStep[];
 };
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
@@ -160,10 +167,31 @@ export default function LcgPage() {
             </ul>
           )}
 
-          <div className="bg-gray-50 rounded-lg p-4 max-h-72 overflow-auto">
-            <pre className="text-xs leading-relaxed break-all whitespace-pre-wrap">
-              {result.sequence.join(", ")}
-            </pre>
+          <div className="rounded-lg border border-gray-200 overflow-hidden">
+            <div className="max-h-72 overflow-auto">
+              <table className="w-full text-xs">
+                <thead className="sticky top-0 bg-gray-50 text-gray-500 uppercase tracking-wide">
+                  <tr>
+                    <th className="px-3 py-2 text-left font-medium">n</th>
+                    <th className="px-3 py-2 text-right font-medium">a·X(n−1) + c</th>
+                    <th className="px-3 py-2 text-right font-medium">Xₙ</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100 font-mono">
+                  {result.steps.map((s) => (
+                    <tr key={s.index} className={s.index % 2 === 0 ? "bg-gray-50" : ""}>
+                      <td className="px-3 py-1.5">{s.index}</td>
+                      <td className="px-3 py-1.5 text-right">
+                        {s.equation.toLocaleString("vi-VN")}
+                      </td>
+                      <td className="px-3 py-1.5 text-right font-semibold text-blue-700">
+                        {s.xn.toLocaleString("vi-VN")}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </section>
       )}
