@@ -1,18 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
+import SiteNav from "@/components/ui/SiteNav";
 
 export const metadata: Metadata = {
   title: "Statistical Computing Lab",
   description: "Lab học thống kê tính toán với giao diện web",
 };
-
-const NAV = [
-  { href: "/", label: "Tổng quan" },
-  { href: "/lcg", label: "LCG" },
-  { href: "/normal", label: "Chuẩn" },
-  { href: "/clt", label: "CLT" },
-];
 
 export default function RootLayout({
   children,
@@ -28,17 +22,7 @@ export default function RootLayout({
               <img src="/logo.svg" alt="" className="w-7 h-7 rounded-md" />
               StatLab
             </Link>
-            <nav className="flex items-center gap-1 text-sm">
-              {NAV.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="px-3 py-1.5 rounded-md hover:bg-gray-100 transition-colors"
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
+            <SiteNav />
           </div>
         </header>
 
