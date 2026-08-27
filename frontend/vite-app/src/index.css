@@ -1,1 +1,4 @@
-/* Placeholder — Tailwind directives sẽ được thêm ở Step 2 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
