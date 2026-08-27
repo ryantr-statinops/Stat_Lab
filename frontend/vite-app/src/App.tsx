@@ -1,14 +1,32 @@
-/**
- * Trang gốc của bản mirror Vite — các route thật sẽ vào ở Step 3 (router shell).
- * Hiện là placeholder để xác minh pipeline build chạy trọn vẹn từ Step 1.
- */
+import { Route, Routes } from "react-router-dom";
+import SiteNav from "@/components/SiteNav";
+import Home from "@/pages/Home";
+
 export default function App() {
   return (
-    <main className="min-h-screen p-6">
-      <h1 className="text-2xl font-bold">Statistical Computing Lab</h1>
-      <p className="text-gray-500 text-sm mt-1">
-        Bản Vite (React thuần SPA) — đang dựng dần, đối chiếu với next-app.
-      </p>
-    </main>
+    <div className="min-h-screen bg-gray-50 text-gray-900 antialiased flex flex-col">
+      <header className="sticky top-0 z-10 bg-white/90 backdrop-blur border-b border-gray-200">
+        <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-2 font-semibold">
+            <img src="/logo.svg" alt="" className="w-7 h-7 rounded-md" />
+            StatLab
+          </Link>
+          <SiteNav />
+        </div>
+      </header>
+
+      <div className="flex-1">
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </div>
+
+      <footer className="border-t border-gray-200 py-4 mt-8">
+        <p className="max-w-5xl mx-auto px-4 text-xs text-gray-400">
+          Statistical Computing Lab — bản Vite (React SPA), đối chiếu với bản Next.js.
+        </p>
+      </footer>
+    </div>
   );
 }
+
