@@ -5,6 +5,7 @@ type Topic = {
   title: string;
   desc: string;
   formula: string;
+  status: "ready" | "soon";
 };
 
 const TOPICS: Topic[] = [
@@ -13,18 +14,21 @@ const TOPICS: Topic[] = [
     title: "LCG",
     desc: "Sinh dãy số giả ngẫu nhiên và phân tích chu kỳ thực tế theo Hull-Dobell.",
     formula: "X[i] = (a·X[i−1] + c) mod m",
+    status: "ready",
   },
   {
     href: "/normal",
     title: "Phân phối chuẩn",
     desc: "Lấy mẫu biến đổi Box-Muller kèm biểu đồ histogram tương tác.",
     formula: "Z = √(−2 ln U) · cos(2πV)",
+    status: "ready",
   },
   {
     href: "/clt",
     title: "CLT",
     desc: "Mô phỏng Định lý Giới hạn Trung tâm trên các phân phối nền khác nhau.",
     formula: "X̄ → N(μ, σ²/n)",
+    status: "ready",
   },
 ];
 
@@ -44,21 +48,42 @@ export default function Home() {
 
       <section className="grid grid-cols-1 md:grid-cols-3 gap-4 pb-6">
         {TOPICS.map((topic) =>
-          topic.href ? (
+          topic.status === "ready" && topic.href ? (
             <Link
               key={topic.title}
               to={topic.href}
               className="group flex flex-col bg-white rounded-xl border border-gray-200 shadow-sm p-5 hover:border-blue-300 hover:shadow-md transition-all"
             >
-              <h2 className="font-bold group-hover:text-blue-600 transition-colors mb-3">
-                {topic.title}
-              </h2>
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="font-bold group-hover:text-blue-600 transition-colors">
+                  {topic.title}
+                </h2>
+                <span className="px-2 py-0.5 rounded-full bg-green-50 text-green-700 text-xs font-medium">
+                  Sẵn sàng
+                </span>
+              </div>
               <p className="text-sm text-gray-500 flex-1">{topic.desc}</p>
               <code className="mt-4 text-xs bg-gray-50 border border-gray-100 rounded-md px-2 py-1.5 self-start">
                 {topic.formula}
               </code>
             </Link>
-          ) : null,
+          ) : (
+            <div
+              key={topic.title}
+              className="flex flex-col bg-white rounded-xl border border-dashed border-gray-200 p-5 opacity-70"
+            >
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="font-bold text-gray-600">{topic.title}</h2>
+                <span className="px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 text-xs font-medium">
+                  Stage 3
+                </span>
+              </div>
+              <p className="text-sm text-gray-400 flex-1">{topic.desc}</p>
+              <code className="mt-4 text-xs bg-gray-50 border border-gray-100 rounded-md px-2 py-1.5 self-start text-gray-400">
+                {topic.formula}
+              </code>
+            </div>
+          ),
         )}
       </section>
     </main>

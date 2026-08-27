@@ -187,6 +187,19 @@ export default function LcgPage() {
             </ul>
           )}
 
+          {result.notes.length > 0 && (
+            <ul className="space-y-1">
+              {result.notes.map((note, i) => (
+                <li
+                  key={i}
+                  className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-md px-3 py-2"
+                >
+                  💡 {note}
+                </li>
+              ))}
+            </ul>
+          )}
+
           <div className="rounded-lg border border-gray-200 overflow-hidden">
             <div className="max-h-72 overflow-auto">
               <table className="w-full table-fixed text-xs">
