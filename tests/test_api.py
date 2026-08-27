@@ -111,3 +111,12 @@ def test_cors_allows_local_frontend_origin():
 def test_cors_rejects_unknown_origin():
     res = client.get("/api/v1/lcg", headers={"Origin": "http://evil.example.com"})
     assert res.headers.get("access-control-allow-origin") is None
+
+
+def test_cors_allows_vite_dev_and_preview_origins():
+    for origin in (
+        "http://localhost:5173",   # vite dev
+        "http://localhost:4173",   # vite preview (production build)
+    ):
+        res = client.get("/api/v1/lcg", headers={"Origin": origin})
+        assert res.headers.get("access-control-allow-origin") == origin
