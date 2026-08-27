@@ -7,6 +7,7 @@
 Workspace giáo dục với định hướng **60% luyện full-stack web dev / 40% nội dung thống kê**:
 
 - **Frontend**: Next.js 14 + Tailwind CSS — dashboard đa bài toán thống kê (port 3000)
+- **Frontend mirror**: React 18 + TypeScript + Vite SPA tại `frontend/vite-app/` (port 5173)
 - **Backend**: FastAPI + Python thuần — toàn bộ tính toán chạy bằng Python (port 8000)
 - **lab/R/**: sổ tay bài lab bằng R — nơi viết thử công thức trước khi port sang Python; R **không** tham gia runtime
 
@@ -31,6 +32,18 @@ npm install
 npm run dev
 # UI: http://localhost:3000
 ```
+
+### Frontend thứ hai (Vite, port 5173)
+Bản React SPA mirror của next-app — cùng API, khác paradigm (fetch thuần + react-router):
+```bash
+cd frontend/vite-app
+npm install
+npm run dev
+# UI: http://localhost:5173
+```
+
+> Chạy một lúc cả hai thì mở 2 terminal riêng (3000 và 5173). Muốn xem bản build
+> production của Vite: `npm run build` rồi `npm run preview` → cổng 4173.
 
 ### Chạy kiểm thử
 ```bash

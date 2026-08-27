@@ -11,6 +11,8 @@ Loại: `JOURNAL` (nhận xét khi tự dùng) · `DECISION` (chốt cách làm)
 
 ## 📒 Nhật ký & quyết định
 
+- 2026-08-24 · DONE · Mở rộng CORS backend cho origins của **vite-app**: dev `:5173` + preview production `:4173` (thêm test riêng verify); README/INIT-GUIDE/SCREENS cập nhật mục chạy "frontend thứ hai". Khi có thêm frontend mới: nhớ thêm origin vào `ALLOWED_ORIGINS` ở `backend/fastapi/main.py`
+
 - 2026-08-24 · DONE · **Dual frontend live**: hoàn thành mirror `frontend/vite-app` (React18+TS+Vite, port :5173) với đủ 4 trang Home/LCG/Chuẩn/CLT gọi cùng API :8000 — fetch thuần thay axios, NavLink active thay SiteNav thủ công, env VITE_API_URL thay NEXT_PUBLIC_API_URL. Hai bẫy đã xử lý: quên import Link/unused-import, và **Vite không đọc tsconfig paths** (phải khai resolve.alias trong vite.config)
 - 2026-08-24 · JOURNAL · Bug do người dùng phát hiện trên `/lcg`: xoá hết số thì ô tự nhảy về "0" và không thể để trống — nguyên nhân anti-pattern `parseInt(value) || 0` ngay trong onChange của controlled input (NaN bị ép thành 0 rồi React ghi ngược lại; kèm theo không gõ được dấu `-`)
 - 2026-08-24 · DONE · Chuyển `/lcg` sang pattern chuỗi-thô như `/normal` & `/clt`: onChange giữ raw text, parse/validate gom vào `buildPayload()` lúc submit — ô rỗng được tôn trọng và nhập số âm trở nên khả thi

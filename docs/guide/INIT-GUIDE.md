@@ -106,6 +106,18 @@ npm run dev
 > frontend, hãy bổ sung origin tương ứng vào `ALLOWED_ORIGINS` trong
 > `backend/fastapi/main.py`.
 
+### Bước 2b — Frontend thứ hai (Vite) — tùy chọn
+
+Bản React SPA mirror của next-app, chạy song song được (cổng khác `:5173`):
+```bash
+cd frontend/vite-app
+npm install
+npm run dev                      # UI: http://localhost:5173
+```
+- Cùng API `:8000`; fetch thuần (không axios). Mở một lúc cả hai thì chạy 2 terminal.
+- Xem bản build production: `npm run build` → `npm run preview` → cổng `:4173`.
+- CORS backend đã cho phép cả `:3000`, `:5173`, `:4173`.
+
 ---
 
 ## Bước 3 — Bộ kiểm thử

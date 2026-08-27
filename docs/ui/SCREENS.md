@@ -5,6 +5,7 @@
 
 ## 1. Sitemap
 
+### next-app (Next.js App Router)
 ```
 frontend/next-app/app/
 ├── layout.tsx      # khung chung: header + nav + footer
@@ -12,6 +13,13 @@ frontend/next-app/app/
 ├── lcg/page.tsx    # "/lcg"        Trạm LCG              (client)
 ├── normal/page.tsx # "/normal"     Trạm phân phối chuẩn  (client)
 └── clt/page.tsx    # "/clt"        Trạm CLT              (client)
+```
+
+### vite-app (React SPA + react-router)
+```
+frontend/vite-app/src/
+├── main.tsx · App.tsx          # BrowserRouter + Routes trong khung chung
+└── pages/{Home,Lcg,Normal,Clt}.tsx   # cùng 4 route, dev cổng :5173
 ```
 
 Quy ước: trang dashboard là server component (tĩnh, nhẹ); mọi trang trạm là
