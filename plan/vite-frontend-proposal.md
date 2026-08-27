@@ -1,6 +1,7 @@
 # ⚡ Đề xuất: Frontend thứ hai bằng React + TypeScript + Vite
 
-> **Trạng thái**: DUYỆT ĐỔI ĐỒNG Ý — full mirror của `next-app`, phục vụ so sánh
+> **Trạng thái**: ✅ ĐÃ TRIỂN KHAI XONG — full mirror của `next-app` đang sống ở
+> `frontend/vite-app/` (dev cổng :5173, build production đã verify). Phục vụ so sánh
 > hai paradigm frontend trên cùng một sản phẩm thống kê.
 
 ## 🎯 Mục tiêu & định vị
@@ -54,12 +55,12 @@ frontend/
 
 ## ✅ Definition of Done
 
-- [ ] Cả 4 route chạy trên `:5173`, gọi API `:8000`, UI khớp DESIGN-SYSTEM
-- [ ] `/lcg`: ô input giữ được trạng thái rỗng (pattern chuỗi-thô), bảng 3 cột
+- [x] Cả 4 route hoạt động (`:5173` dev / `4173` preview), gọi API `:8000`, UI khớp DESIGN-SYSTEM
+- [x] `/lcg`: ô input giữ được trạng thái rỗng (pattern chuỗi-thô), bảng 3 cột
       đều width + căn giữa + divide-x
-- [ ] `/normal` `/clt`: biểu đồ Recharts render đúng dữ liệu API
-- [ ] `npm run build` xanh trong `vite-app`
-- [ ] EVOLUTION journal entry ghi mốc "dual frontend live"
+- [x] `/normal` `/clt`: biểu đồ Recharts render đúng dữ liệu API
+- [x] `npm run build` xanh trong `vite-app` (+ alias `@/` đăng ký trong vite.config)
+- [x] EVOLUTION journal entry ghi mốc "dual frontend live"
 
 ## ⚠️ Quy tắc đồng bộ hai frontend
 

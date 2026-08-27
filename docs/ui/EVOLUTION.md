@@ -11,6 +11,7 @@ Loại: `JOURNAL` (nhận xét khi tự dùng) · `DECISION` (chốt cách làm)
 
 ## 📒 Nhật ký & quyết định
 
+- 2026-08-24 · DONE · **Dual frontend live**: hoàn thành mirror `frontend/vite-app` (React18+TS+Vite, port :5173) với đủ 4 trang Home/LCG/Chuẩn/CLT gọi cùng API :8000 — fetch thuần thay axios, NavLink active thay SiteNav thủ công, env VITE_API_URL thay NEXT_PUBLIC_API_URL. Hai bẫy đã xử lý: quên import Link/unused-import, và **Vite không đọc tsconfig paths** (phải khai resolve.alias trong vite.config)
 - 2026-08-24 · JOURNAL · Bug do người dùng phát hiện trên `/lcg`: xoá hết số thì ô tự nhảy về "0" và không thể để trống — nguyên nhân anti-pattern `parseInt(value) || 0` ngay trong onChange của controlled input (NaN bị ép thành 0 rồi React ghi ngược lại; kèm theo không gõ được dấu `-`)
 - 2026-08-24 · DONE · Chuyển `/lcg` sang pattern chuỗi-thô như `/normal` & `/clt`: onChange giữ raw text, parse/validate gom vào `buildPayload()` lúc submit — ô rỗng được tôn trọng và nhập số âm trở nên khả thi
 - 2026-08-24 · DONE · Navbar mới: gom LCG · Chuẩn · CLT vào dropdown **Feature** (component `SiteNav`) + highlight mục active theo pathname — xoá item 🔴 *nav-active* khỏi backlog

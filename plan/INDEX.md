@@ -11,7 +11,7 @@
 |---|----------|--------|------------|---------|
 | 1 | [`ideation.md`](ideation.md) | **Định hướng gốc**: mục tiêu 60% full-stack / 40% thống kê, stack đã chốt, Stage 0–4 + Tech Debt | ✅ LIVING DOC — cập nhật liên tục | Nền tảng cho mọi proposal |
 | 2 | [`golang-gateway-proposal.md`](golang-gateway-proposal.md) | **Golang làm API Gateway** :8000 · FastAPI rời sang :8011 giữ toàn bộ tính toán · chia route Nhóm A (forward) / Nhóm B (Go tự lo) · CORS tập trung ở gateway | 🟡 ĐỀ XUẤT ĐÃ DUYỆT — chờ triển khai Phase 1 | Phase 2 sẽ bổ sung `frontend-vite` vào Compose |
-| 3 | [`vite-frontend-proposal.md`](vite-frontend-proposal.md) | **Frontend thứ hai** React18+TS+Vite :5173 — full mirror của next-app (4 trang), HTTP bằng fetch thuần, so sánh hai paradigm | 🟡 ĐỀ XUẤT ĐÃ DUYỆT — chờ scaffold Step 1 | API không đổi; độc lập với proposal #2 |
+| 3 | [`vite-frontend-proposal.md`](vite-frontend-proposal.md) | **Frontend thứ hai** React18+TS+Vite :5173 — full mirror của next-app (4 trang), HTTP bằng fetch thuần, so sánh hai paradigm | ✅ ĐÃ TRIỂN KHAI XONG | API không đổi; độc lập với proposal #2 |
 
 ## 🔗 Quan hệ & phụ thuộc
 
