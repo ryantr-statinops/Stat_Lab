@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import { Link } from "react-router-dom";
 import SiteNav from "@/components/SiteNav";
 import Home from "@/pages/Home";
 
