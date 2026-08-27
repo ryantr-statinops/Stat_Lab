@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { Link } from "react-router-dom";
 import SiteNav from "@/components/SiteNav";
 import Home from "@/pages/Home";
+import Lcg from "@/pages/Lcg";
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
       <div className="flex-1">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/lcg" element={<Lcg />} />
         </Routes>
       </div>
 
