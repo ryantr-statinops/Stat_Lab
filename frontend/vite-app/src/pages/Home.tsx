@@ -14,6 +14,18 @@ const TOPICS: Topic[] = [
     desc: "Sinh dãy số giả ngẫu nhiên và phân tích chu kỳ thực tế theo Hull-Dobell.",
     formula: "X[i] = (a·X[i−1] + c) mod m",
   },
+  {
+    href: "/normal",
+    title: "Phân phối chuẩn",
+    desc: "Lấy mẫu biến đổi Box-Muller kèm biểu đồ histogram tương tác.",
+    formula: "Z = √(−2 ln U) · cos(2πV)",
+  },
+  {
+    href: "/clt",
+    title: "CLT",
+    desc: "Mô phỏng Định lý Giới hạn Trung tâm trên các phân phối nền khác nhau.",
+    formula: "X̄ → N(μ, σ²/n)",
+  },
 ];
 
 export default function Home() {

@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import SiteNav from "@/components/SiteNav";
 import Home from "@/pages/Home";
 import Lcg from "@/pages/Lcg";
+import Normal from "@/pages/Normal";
+import Clt from "@/pages/Clt";
 
 export default function App() {
   return (
@@ -21,6 +23,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/lcg" element={<Lcg />} />
+          <Route path="/normal" element={<Normal />} />
+          <Route path="/clt" element={<Clt />} />
         </Routes>
       </div>
 
