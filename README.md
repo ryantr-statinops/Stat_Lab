@@ -111,6 +111,16 @@ GET /api/v1/clt?n_simulations=2000&sample_size=30&distribution=uniform
 ```
 Kèm `empirical_mean/std` để so sánh trực tiếp với `theoretical_mean` và `theoretical_se = σ/√n`.
 
+### Biến đổi ngược — Inverse Transform
+```bash
+GET /api/v1/inverse?distribution=geometric&p=0.3&n=5000&seed=42
+GET /api/v1/inverse?distribution=exponential&lambda=3&n=5000
+GET /api/v1/inverse?distribution=rayleigh&sigma=2&n=5000
+```
+Mirror từ `lab/R/inverse_transform_examples.R`: hỗ trợ `geometric` (công thức đóng &
+tổng quát), `exponential`, `rayleigh`; response gồm `samples`, `sample_mean` và
+`theory` (điểm pmf/pdf) để phủ đường lý thuyết lên histogram.
+
 ### Histogram server-side
 ```bash
 GET /api/v1/histogram?source=normal&n=5000&n_bins=20

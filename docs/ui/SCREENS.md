@@ -8,18 +8,19 @@
 ### next-app (Next.js App Router)
 ```
 frontend/next-app/app/
-├── layout.tsx      # khung chung: header + nav + footer
-├── page.tsx        # "/"           Tổng quan dashboard   (server component)
-├── lcg/page.tsx    # "/lcg"        Trạm LCG              (client)
-├── normal/page.tsx # "/normal"     Trạm phân phối chuẩn  (client)
-└── clt/page.tsx    # "/clt"        Trạm CLT              (client)
+├── layout.tsx        # khung chung: header + nav + footer
+├── page.tsx          # "/"           Tổng quan dashboard   (server component)
+├── lcg/page.tsx      # "/lcg"        Trạm LCG              (client)
+├── normal/page.tsx   # "/normal"     Trạm phân phối chuẩn  (client)
+├── clt/page.tsx      # "/clt"        Trạm CLT              (client)
+└── inverse/page.tsx  # "/inverse"    Trạm biến đổi ngược   (client)
 ```
 
 ### vite-app (React SPA + react-router)
 ```
 frontend/vite-app/src/
-├── main.tsx · App.tsx          # BrowserRouter + Routes trong khung chung
-└── pages/{Home,Lcg,Normal,Clt}.tsx   # cùng 4 route, dev cổng :5173
+├── main.tsx · App.tsx                      # BrowserRouter + Routes trong khung chung
+└── pages/{Home,Lcg,Normal,Clt,Inverse}.tsx # cùng 5 route, dev cổng :5173
 ```
 
 Quy ước: trang dashboard là server component (tĩnh, nhẹ); mọi trang trạm là
@@ -39,8 +40,8 @@ Quy ước: trang dashboard là server component (tĩnh, nhẹ); mọi trang tr�
 
 - Header: `sticky top-0 bg-white/90 backdrop-blur border-b`, cao `h-14`
 - Nav (`components/ui/SiteNav.tsx`, client component): link **Tổng quan** +
-  dropdown **Feature ▾** gom LCG · Chuẩn · CLT; mở/đóng bằng click, tự đóng
-  khi click ra ngoài hoặc khi chuyển trang
+  dropdown **Feature ▾** gom LCG · Chuẩn · CLT · Biến đổi ngược; mở/đóng bằng click,
+  tự đóng khi click ra ngoài hoặc khi chuyển trang
 - Active state: mục khớp pathname được highlight `bg-blue-50 text-blue-700`
   (nút Feature cũng sáng khi đang ở bất kỳ trang trạm nào)
 

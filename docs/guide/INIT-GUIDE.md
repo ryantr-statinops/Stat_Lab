@@ -95,7 +95,7 @@ npm run dev
 
 **✅ Kiểm tra trải nghiệm trọn vẹn:**
 
-1. Dashboard hiển thị 3 topic card: LCG · Phân phối chuẩn · CLT
+1. Dashboard hiển thị 4 topic card: LCG · Phân phối chuẩn · CLT · Biến đổi ngược
 2. Vào **LCG** → giữ tham số mặc định → bấm *"Sinh dãy số"*
    → thấy dãy số + badge *"Chu kỳ: 9 / 99"* + note Hull-Dobell
 3. Vào **Chuẩn** → bấm *"Lấy mẫu & vẽ histogram"* → thấy đồ hình chuông

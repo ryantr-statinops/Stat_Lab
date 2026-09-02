@@ -11,6 +11,7 @@ Loại: `JOURNAL` (nhận xét khi tự dùng) · `DECISION` (chốt cách làm)
 
 ## 📒 Nhật ký & quyết định
 
+- 2026-08-25 · DONE · **Trạm thứ 4 — Biến đổi ngược**: mirror `lab/R/inverse_transform_examples.R` thành service + `/api/v1/inverse` (geometric đóng & tổng quát, exponential, rayleigh; kèm điểm pmf/pdf để overlay như `curve()` trong R) và trang `/inverse` ở CẢ HAI frontend (hist mật độ + đường lý thuyết đỏ, Recharts ComposedChart). Query param dùng `lambda=` (alias pydantic). 54 tests xanh; chi tiết commit-chain xem log C1→C7
 - 2026-08-24 · DONE · Mở rộng CORS backend cho origins của **vite-app**: dev `:5173` + preview production `:4173` (thêm test riêng verify); README/INIT-GUIDE/SCREENS cập nhật mục chạy "frontend thứ hai". Khi có thêm frontend mới: nhớ thêm origin vào `ALLOWED_ORIGINS` ở `backend/fastapi/main.py`
 
 - 2026-08-24 · DONE · **Dual frontend live**: hoàn thành mirror `frontend/vite-app` (React18+TS+Vite, port :5173) với đủ 4 trang Home/LCG/Chuẩn/CLT gọi cùng API :8000 — fetch thuần thay axios, NavLink active thay SiteNav thủ công, env VITE_API_URL thay NEXT_PUBLIC_API_URL. Hai bẫy đã xử lý: quên import Link/unused-import, và **Vite không đọc tsconfig paths** (phải khai resolve.alias trong vite.config)
