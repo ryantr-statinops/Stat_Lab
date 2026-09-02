@@ -120,3 +120,49 @@ def test_cors_allows_vite_dev_and_preview_origins():
     ):
         res = client.get("/api/v1/lcg", headers={"Origin": origin})
         assert res.headers.get("access-control-allow-origin") == origin
+
+
+# ---------- inverse transform endpoint ----------
+
+
+def test_inverse_endpoint_all_distributions():
+    cases = [
+        ("geometric", "p=0.3", 0.3),
+        ("geometric_general", "p=0.25", 0.25),
+    ]
+    for dist, qs, p in cases:
+        res = client.get(f"/api/v1/inverse?distribution={dist}&n=500&seed=7&{qs}")
+        assert res.status_code == 200
+        data = res.json()
+        assert data["distribution"] == dist
+        assert data["count"] == 500
+        assert data["p"] == p
+        assert len(data["samples"]) == 500
+        # đường lý thuyết pmf 20 điểm với y[0] = 1−p
+        assert len(data["theory"]) == 20
+        assert abs(data["theory"][0]["y"] - (1 - p)) < 1e-9
+
+
+def test_inverse_endpoint_continuous_distributions():
+    res = client.get(
+        "/api/v1/inverse?distribution=exponential&n=500&seed=7&lambda=3"
+    )
+    assert res.status_code == 200
+    data = res.json()
+    assert data["lam"] == 3.0
+    assert len(data["theory"]) == 41  # đường pdf 41 điểm
+
+    res = client.get("/api/v1/inverse?distribution=rayleigh&n=500&seed=7&sigma=2")
+    assert res.status_code == 200
+    data = res.json()
+    assert data["sigma"] == 2.0
+    assert all(s["x"] > 0 for s in data["theory"][1:])
+
+
+def test_inverse_endpoint_validates_params():
+    res = client.get("/api/v1/inverse?distribution=cauchy")
+    assert res.status_code == 422
+    res = client.get("/api/v1/inverse?distribution=exponential&lambda=-1")
+    assert res.status_code == 422
+    res = client.get("/api/v1/inverse?distribution=geometric&p=0")
+    assert res.status_code == 422

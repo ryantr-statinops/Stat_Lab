@@ -1,5 +1,6 @@
 """Unit test cho các service thống kê thuần (không qua HTTP)."""
 
+import math
 from statistics import fmean, pstdev
 
 import pytest
@@ -7,6 +8,13 @@ import pytest
 from services.clt_service import sample_means, theoretical_mean_se
 from services.distributions_service import box_muller_samples, uniform_samples
 from services.histogram_service import histogram_bins
+from services.inverse_service import (
+    exponential_samples,
+    geometric_general_samples,
+    geometric_samples,
+    rayleigh_samples,
+    theory_points,
+)
 
 
 def test_box_muller_reproducible_with_same_seed():
@@ -90,3 +98,76 @@ def test_histogram_rejects_non_positive_nbins():
 
 def test_histogram_empty_input_returns_empty():
     assert histogram_bins([], n_bins=5) == []
+
+
+# ---------- inverse transform service ----------
+
+
+def test_geometric_reproducible_with_same_seed():
+    assert geometric_samples(n=50, seed=1) == geometric_samples(n=50, seed=1)
+
+
+def test_geometric_mean_close_to_one_over_one_minus_p():
+    samples = geometric_samples(n=8000, p=0.3, seed=42)
+    assert abs(fmean(samples) - 1 / 0.7) < 0.1
+
+
+def test_geometric_values_are_positive_integers():
+    samples = geometric_samples(n=500, p=0.5, seed=3)
+    assert all(x >= 1 and float(x).is_integer() for x in samples)
+
+
+def test_exponential_mean_close_to_one_over_lambda():
+    samples = exponential_samples(n=8000, lam=3.0, seed=42)
+    assert abs(fmean(samples) - 1 / 3.0) < 0.05
+
+
+def test_exponential_values_are_positive():
+    assert all(x > 0 for x in exponential_samples(n=500, lam=2.0, seed=5))
+
+
+def test_rayleigh_mean_close_to_sigma_sqrt_pi_over_2():
+    samples = rayleigh_samples(n=8000, sigma=2.0, seed=42)
+    expected = 2.0 * math.sqrt(math.pi / 2)
+    assert abs(fmean(samples) - expected) < 0.1
+
+
+def test_geometric_general_matches_closed_form():
+    closed = geometric_samples(n=2000, p=0.25, seed=11)
+    general = geometric_general_samples(n=2000, p=0.25, seed=11)
+    assert abs(fmean(closed) - fmean(general)) < 0.15
+
+
+def test_inverse_rejects_invalid_params():
+    with pytest.raises(ValueError):
+        geometric_samples(n=5, p=1.5)
+    with pytest.raises(ValueError):
+        exponential_samples(n=5, lam=0.0)
+    with pytest.raises(ValueError):
+        rayleigh_samples(n=5, sigma=-1.0)
+
+
+def test_inverse_handles_zero_n():
+    assert geometric_samples(n=0) == []
+    assert exponential_samples(n=0) == []
+    assert rayleigh_samples(n=0) == []
+    assert geometric_general_samples(n=0) == []
+
+
+def test_theory_points_geometric_is_pmf():
+    pts = theory_points("geometric", p=0.3)
+    assert len(pts) == 20
+    assert pts[0]["x"] == 1.0
+    assert abs(pts[0]["y"] - 0.7) < 1e-9
+    assert abs(sum(pt["y"] for pt in pts) - 1.0) < 0.001  # 0.7·(1−0.3^20)
+
+
+def test_theory_points_rayleigh_pdf_at_zero_is_zero():
+    pts = theory_points("rayleigh", sigma=2.0, x_max=6.0)
+    assert pts[0] == {"x": 0.0, "y": 0.0}
+    assert pts[-1]["x"] == 6.0
+
+
+def test_theory_points_rejects_unknown_distribution():
+    with pytest.raises(ValueError):
+        theory_points("cauchy")
