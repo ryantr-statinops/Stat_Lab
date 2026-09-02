@@ -9,6 +9,7 @@ const FEATURES = [
   { href: "/lcg", label: "LCG" },
   { href: "/normal", label: "Chuẩn" },
   { href: "/clt", label: "CLT" },
+  { href: "/inverse", label: "Biến đổi ngược" },
 ];
 
 const linkBase = "px-3 py-1.5 rounded-md transition-colors";
