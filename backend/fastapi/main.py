@@ -12,6 +12,13 @@ from pydantic import BaseModel
 from services.clt_service import sample_means, theoretical_mean_se
 from services.distributions_service import box_muller_samples, uniform_samples
 from services.histogram_service import histogram_bins
+from services.inverse_service import (
+    exponential_samples,
+    geometric_general_samples,
+    geometric_samples,
+    rayleigh_samples,
+    theory_points,
+)
 from services.lcg_service import lcg_cycle_length, lcg_generator, lcg_steps
 
 app = FastAPI(
@@ -228,3 +235,74 @@ async def build_histogram(
 @app.get("/")
 async def root():
     return {"message": "Statistical Computing Lab API", "version": "0.1.0"}
+
+
+class TheoryPoint(BaseModel):
+    x: float
+    y: float
+
+
+class InverseResponse(BaseModel):
+    distribution: str
+    n: int
+    p: Optional[float] = None
+    lam: Optional[float] = None
+    sigma: Optional[float] = None
+    samples: List[float]
+    count: int
+    sample_mean: float
+    theory: List[TheoryPoint] = []
+
+
+@app.get("/api/v1/inverse", response_model=InverseResponse)
+async def generate_inverse(
+    distribution: str = Query(
+        "geometric",
+        pattern="^(geometric|exponential|rayleigh|geometric_general)$",
+        description="Phân phối cần lấy mẫu theo biến đổi ngược",
+    ),
+    n: int = Query(1000, ge=10, le=10000, description="Số mẫu cần sinh"),
+    p: float = Query(0.3, gt=0, lt=1, description="Tham số p (hình học)"),
+    lam: float = Query(
+        3.0, alias="lambda", gt=0, description="Tham số λ (mũ)"
+    ),
+    sigma: float = Query(2.0, gt=0, description="Tham số σ (Rayleigh)"),
+    seed: Optional[int] = Query(None, description="Seed để tái lập kết quả"),
+):
+    """
+    Lấy mẫu theo phép biến đổi ngược: X = F⁻¹(U) với U ~ Uniform(0, 1).
+
+    Mirror từ lab/R/inverse_transform_examples.R — mỗi phân phối kèm
+    đường lý thuyết (pmf/pdf) để phủ lên histogram như overlay trong R.
+    """
+    if distribution == "geometric":
+        samples = geometric_samples(n=n, p=p, seed=seed)
+        theory = theory_points("geometric", p=p)
+        param = {"p": p}
+    elif distribution == "geometric_general":
+        samples = geometric_general_samples(n=n, p=p, seed=seed)
+        theory = theory_points("geometric_general", p=p)
+        param = {"p": p}
+    elif distribution == "exponential":
+        samples = exponential_samples(n=n, lam=lam, seed=seed)
+        x_max = max(samples) * 1.05
+        theory = theory_points("exponential", lam=lam, x_max=x_max)
+        param = {"lam": lam}
+    else:  # rayleigh
+        samples = rayleigh_samples(n=n, sigma=sigma, seed=seed)
+        x_max = max(samples) * 1.05
+        theory = theory_points("rayleigh", sigma=sigma, x_max=x_max)
+        param = {"sigma": sigma}
+
+    total = len(samples)
+    sample_mean = sum(samples) / total
+
+    return InverseResponse(
+        distribution=distribution,
+        n=n,
+        samples=samples,
+        count=total,
+        sample_mean=sample_mean,
+        theory=theory,
+        **param,
+    )
