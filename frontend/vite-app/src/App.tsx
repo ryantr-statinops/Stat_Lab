@@ -5,6 +5,7 @@ import Home from "@/pages/Home";
 import Lcg from "@/pages/Lcg";
 import Normal from "@/pages/Normal";
 import Clt from "@/pages/Clt";
+import Inverse from "@/pages/Inverse";
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
           <Route path="/lcg" element={<Lcg />} />
           <Route path="/normal" element={<Normal />} />
           <Route path="/clt" element={<Clt />} />
+          <Route path="/inverse" element={<Inverse />} />
         </Routes>
       </div>
 

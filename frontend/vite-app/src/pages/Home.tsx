@@ -30,6 +30,13 @@ const TOPICS: Topic[] = [
     formula: "X̄ → N(μ, σ²/n)",
     status: "ready",
   },
+  {
+    href: "/inverse",
+    title: "Biến đổi ngược",
+    desc: "Lấy mẫu Hình học, Mũ, Rayleigh theo phép biến đổi ngược — mirror từ lab/R.",
+    formula: "X = F⁻¹(U)",
+    status: "ready",
+  },
 ];
 
 export default function Home() {
